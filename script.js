@@ -35,24 +35,3 @@ function createParticles() {
       container.appendChild(particle);
   }
 }
-
-// IUBENDA BOTTOM BANNER
-function initIubenda() {
-  window._iub = window._iub || [];
-  _iub.csConfiguration = {
-    consentOnContinuedBrowsing: false,
-    lang: "it",
-    siteId: 74448765,
-    banner: {
-      position: "bottom",
-      acceptButtonDisplay: true,
-      rejectButtonDisplay: true,
-      applyStyles: true
-    }
-  };
-
-  const script = document.createElement('script');
-  script.src = "https://cdn.iubenda.com/cs/iubenda_cs.js";
-  script.async = true;
-  document.body.appendChild(script);
-}
