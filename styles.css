@@ -166,6 +166,11 @@ footer {
   font-size: 14px;
   margin-top: 40px;
 }
-.iubenda-cs-preferences-link {
-  display: none !important;
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  background: currentColor;
+  margin-left: 2px;
+  animation: blink 0.5s infinite;
 }

@@ -1,37 +1,60 @@
 // LOGO DIGITAZIONE
-const text = "Spottly";
-const logo = document.getElementById("logo");
-let i = 0;
+function typeEffect(element, text, speed = 200) {
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  element.after(cursor);
 
-function typeEffect() {
-  if (i < text.length) {
-    logo.textContent += text.charAt(i);
-    i++;
-    setTimeout(typeEffect, 200); // velocità digitazione
-  } else {
-    setTimeout(() => { logo.style.borderRight = "none"; }, 500);
+  function type() {
+    if (i < text.length) {
+      element.textContent += text[i++];
+      setTimeout(type, speed);
+    } else {
+      cursor.remove();
+    }
   }
+  
+  type();
 }
 
-window.onload = () => {
-  typeEffect();
-  createParticles();
-  initIubenda();
+// PARTICELLE (Ottimizzate con DocumentFragment)
+function createParticles(containerSelector, count = 100) {
+  const container = document.querySelector(containerSelector);
+  const fragment = document.createDocumentFragment();
+  const particles = [];
+
+  for (let i = 0; i < count; i++) {
+    const particle = document.createElement('span');
+    const size = Math.random() * 3 + 1;
+    
+    Object.assign(particle.style, {
+      width: `${size}px`,
+      height: `${size}px`,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      animationDuration: `${Math.random() * 10 + 5}s`
+    });
+
+    particles.push(particle);
+    fragment.appendChild(particle);
+  }
+
+  container.appendChild(fragment);
+  return particles;
 }
 
-// PARTICELLE
-function createParticles() {
-  const container = document.querySelector('.particles');
-  const numberOfParticles = 100;
-
-  for(let i=0; i<numberOfParticles; i++){
-      const particle = document.createElement('span');
-      const size = Math.random() * 3 + 1;
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.top = `${Math.random() * 100}%`;
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
-      container.appendChild(particle);
+// Gestione del caricamento della pagina
+function init() {
+  const logo = document.getElementById('logo');
+  if (logo && logo.textContent === '') {
+    typeEffect(logo, 'Spottly');
   }
+  createParticles('.particles');
+}
+
+// Caricamento non bloccante
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
 }
