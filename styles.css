@@ -15,7 +15,9 @@ body {
     position: relative;
 }
 
-/* Particelle fluttuanti */
+
+/* Particelle */
+
 .particles {
     position: fixed;
     top: 0;
@@ -36,12 +38,20 @@ body {
 }
 
 @keyframes float {
-    0% { transform: translateY(0) translateX(0); }
-    50% { transform: translateY(-50px) translateX(30px); }
-    100% { transform: translateY(0) translateX(0); }
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-50px) translateX(30px);
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+    }
 }
 
-/* Container e logo */
+
+/* Container */
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -56,10 +66,13 @@ body {
     z-index: 1;
 }
 
+
+/* Logo */
+
 .logo {
     margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeIn 2s forwards 0.5s;
+    opacity: 1;
+    /* Mostrato subito, digitazione in JS */
 }
 
 .title {
@@ -70,7 +83,9 @@ body {
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
-/* Digitazione + cursore */
+
+/* Effetto digitazione */
+
 .typing {
     white-space: nowrap;
     overflow: hidden;
@@ -79,9 +94,17 @@ body {
 }
 
 @keyframes blink {
-    from, to { border-color: transparent; }
-    50% { border-color: #fff; }
+    from,
+    to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #fff;
+    }
 }
+
+
+/* Subtitle (appare dopo Spottly con JS) */
 
 .subtitle {
     font-size: 1.8rem;
@@ -91,13 +114,54 @@ body {
     line-height: 1.5;
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeUp 1.5s forwards 1.5s;
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
+
+
+/* Countdown nascosto inizialmente */
+
+.countdown {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin: 16px 0 24px;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.time-segment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 8px 10px;
+    border-radius: 8px;
+}
+
+.time-segment .number {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #ffffff;
+}
+
+.time-segment .label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 2px;
+}
+
+
+/* CTA (tasto Instagram) nascosto inizialmente */
 
 .cta {
     margin-top: 30px;
     opacity: 0;
-    animation: fadeIn 2s forwards 2s;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .cta a {
@@ -119,58 +183,52 @@ body {
     transform: translateY(-2px);
 }
 
+
 /* Footer */
+
 footer {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px;
+    margin-top: 40px;
     position: fixed;
     bottom: 0;
-    left: 0;
     width: 100%;
-    padding: 20px;
-    background: rgba(30, 30, 30, 0.3);
     backdrop-filter: blur(10px);
-    text-align: center;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    z-index: 1;
 }
 
-/* Animazioni */
+
+/* No iubenda button */
+
+.iubenda-cs-preferences-link {
+    display: none !important;
+}
+
+
+/* Background animation */
+
 @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
-
-@keyframes fadeUp {
-    to { 
-        opacity: 1;
-        transform: translateY(0);
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
 
+
 /* Responsive */
+
 @media (max-width: 768px) {
-    .title { font-size: 3.5rem; }
-    .subtitle { font-size: 1.4rem; }
-}
-
-footer {
-  background: transparent; /* niente sfondo */
-  color: rgba(255,255,255,0.7);
-  text-align: center;
-  padding: 20px 10px;
-  font-size: 14px;
-  margin-top: 40px;
-}
-
-.cursor {
-  display: inline-block;
-  width: 2px;
-  background: currentColor;
-  margin-left: 2px;
-  animation: blink 0.5s infinite;
+    .title {
+        font-size: 3.5rem;
+    }
+    .subtitle {
+        font-size: 1.4rem;
+    }
 }

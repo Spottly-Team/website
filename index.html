@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <script data-goatcounter="https://andreasavo.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
     <meta charset="UTF-8">
@@ -7,20 +8,20 @@
 
     <!-- Inizio Metatags, generati con https://metatags.io -->
     <title>Spottly - In Arrivo</title>
-    <meta name="title" content="Spottly - Scopri. Connetti. Ritrova." />
+    <meta name="title" content="Spottly - Lo spotted a un livello 2.0" />
     <meta name="description" content="Con Spottly, ritrova gli sguardi persi. Tutto inizia da te." />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://appspottly.com/" />
-    <meta property="og:title" content="Spottly - Scopri. Connetti. Ritrova." />
+    <meta property="og:title" content="Spottly - Lo spotted a un livello 2.0" />
     <meta property="og:description" content="Con Spottly, ritrova gli sguardi persi. Tutto inizia da te." />
     <meta property="og:image" content="https://raw.githubusercontent.com/Spottly-Team/website/refs/heads/main/metatags-bg.png" />
 
     <!-- X (Twitter) -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://appspottly.com/" />
-    <meta property="twitter:title" content="Spottly - Scopri. Connetti. Ritrova." />
+    <meta property="twitter:title" content="Spottly - Lo spotted a un livello 2.0" />
     <meta property="twitter:description" content="Con Spottly, ritrova gli sguardi persi. Tutto inizia da te." />
     <meta property="twitter:image" content="https://raw.githubusercontent.com/Spottly-Team/website/refs/heads/main/metatags-bg.png" />
 
@@ -43,23 +44,52 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 </head>
+
 <body>
     <div class="particles"></div>
     <div class="container">
-      
+
         <div class="logo">
+            <!-- Spazio per logo tattico -->
         </div>
+
+        <!-- titolo vuoto, verrà scritto con JS -->
         <h1 id="logo" class="title typing"></h1>
+
         <p class="subtitle">Scopri, Connetti, Ritrova.</p>
+
+        <!-- Countdown aggiunto -->
+        <div id="countdown" class="countdown" aria-label="Countdown">
+            <div class="time-segment">
+                <span class="number" id="days">0</span>
+                <span class="label">giorni</span>
+            </div>
+            <div class="time-segment">
+                <span class="number" id="hours">00</span>
+                <span class="label">ore</span>
+            </div>
+            <div class="time-segment">
+                <span class="number" id="minutes">00</span>
+                <span class="label">minuti</span>
+            </div>
+            <div class="time-segment">
+                <span class="number" id="seconds">00</span>
+                <span class="label">secondi</span>
+            </div>
+        </div>
+
         <div class="cta">
             <a href="https://www.instagram.com/app.spottly/" target="_blank">
                 <span>Per scoprirne di più, seguici su Instagram.</span>
             </a>
         </div>
     </div>
-    <footer> 
-        <p>Spottly © 2025 | Trasforma ogni incontro in una connessione. | Seguici anche su <a href="https://github.com/Spottly-Team" target="_blank" color="inherit">GitHub</a>!</p>
+
+    <footer>
+        <p>Spottly © 2025 | Lo spotted a un livello 2.0</p>
     </footer>
+
     <script src="script.js"></script>
 </body>
+
 </html>
