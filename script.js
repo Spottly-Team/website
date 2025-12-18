@@ -63,12 +63,10 @@ function getTargetDate() {
     const now = new Date();
     let year = now.getFullYear();
 
-    let target = new Date(year, 11, 24, 0, 0, 0);
-    target.setDate(target.getDate() - 4);
+    let target = new Date(year, 0, 6, 0, 0, 0);
 
     if (now >= target) {
-        target = new Date(year + 1, 11, 24, 0, 0, 0);
-        target.setDate(target.getDate() - 4);
+        target = new Date(year + 1, 0, 6, 0, 0, 0);
     }
 
     return target;
