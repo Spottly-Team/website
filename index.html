@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <script data-goatcounter="https://andreasavo.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Spottly è l'app degli spotted per studenti: posta in anonimo, scrolla il feed e scopri se qualcuno ha spottato proprio te. Zero DM, zero match, solo vibes.">
+    <meta name="keywords" content="spotted, studenti, app studenti, spotted anonimi, social studenti, spotted scuola, spotted università, Spottly">
+    <title>Spottly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 
-    <!-- Inizio Metatags, generati con https://metatags.io -->
-    <title>Spottly - In Arrivo</title>
-    <meta name="title" content="Spottly - Lo spotted a un livello 2.0" />
-    <meta name="description" content="Con Spottly, ritrova gli sguardi persi. Tutto inizia da te." />
+    <meta property="og:title" content="Spottly - È uno spotted. Non è un DM. È un feed.">
+    <meta property="og:description" content="Hai visto qualcuno e non hai detto nulla? Spottalo su Spottly. Anonimo, easy, zero imbarazzo.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.appspottly.com/">
+    <meta property="og:locale" content="it_IT">
 
+
+   
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://appspottly.com/" />
@@ -38,58 +47,70 @@
     <!-- Colore barra browser / mobile -->
     <meta name="theme-color" content="#5c59a3">
 
-    <!-- Fine metatags -->
-
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+ 
 </head>
-
 <body>
-    <div class="particles"></div>
-    <div class="container">
-
-        <div class="logo">
-            <!-- Spazio per logo tattico -->
-        </div>
-
-        <!-- titolo vuoto, verrà scritto con JS -->
-        <h1 id="logo" class="title typing"></h1>
-
-        <p class="subtitle">Scopri, Connetti, Ritrova.</p>
-
-        <!-- Countdown aggiunto -->
-        <div id="countdown" class="countdown" aria-label="Countdown">
-            <div class="time-segment">
-                <span class="number" id="days">0</span>
-                <span class="label">giorni</span>
+    <!-- Header-like (non fisso) -->
+    <div class="top-header">
+        <div class="header-content">
+            <div class="logo">Spottly</div>
+            <div class="header-buttons">
+                <button class="btn-primary">Scarica l'app</button>
             </div>
-            <div class="time-segment">
-                <span class="number" id="hours">00</span>
-                <span class="label">ore</span>
-            </div>
-            <div class="time-segment">
-                <span class="number" id="minutes">00</span>
-                <span class="label">minuti</span>
-            </div>
-            <div class="time-segment">
-                <span class="number" id="seconds">00</span>
-                <span class="label">secondi</span>
-            </div>
-        </div>
-
-        <div class="cta">
-            <a href="https://www.instagram.com/app.spottly/" target="_blank">
-                <span>Per scoprirne di più, seguici su Instagram.</span>
-            </a>
         </div>
     </div>
 
-    <footer>
-        <p>Spottly © 2025 | Lo spotted a un livello 2.0</p>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- Colonna Sinistra - Testo -->
+            <div class="left-column">
+                <h1>È uno spotted.<br>Non è un DM.<br>Non è un match.<br>È un feed.</h1>
+                <ul class="features-list">
+                    <li>
+                        <span class="emoji">⚡</span>
+                        <span>L’hai visto? Spottalo.</span>
+                    </li>
+                    <li>
+                        <span class="emoji">🔥</span>
+                        <span>Anonimo, easy, Spottly.</span>
+                    </li>
+                    <li>
+                        <span class="emoji">👀</span>
+                        <span>Oops, spotted!</span>
+                    </li>
+                </ul>
+                <p class="description">
+                    Spottly è dove finiscono tutti gli spotted degli studenti.
+                    Hai visto qualcuno in corridoio, in classe o all’uscita e non hai detto nulla?
+                    Tranquillo, ci pensa Spottly.
+                    Scrolla il feed, posta in anonimo e scopri se qualcuno ha spottato proprio te.
+                    Zero imbarazzo, solo vibes.
+                </p>
+                <button class="download-button">Scarica l'app</button>
+            </div>
+
+            <!-- Colonna Destra - GIF -->
+            <div class="right-column">
+                <div class="video-container">
+                    <img src="IMG_8515.PNG" alt="Spottly" class="hero-video">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-copyright">© 2026 Spottly</p>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="termini-condizioni.html">Termini e condizioni</a>
+                <a href="standard-community.html">Standard della community</a>
+                <a href="help.html">Help</a>
+            </div>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
 </body>
-
 </html>

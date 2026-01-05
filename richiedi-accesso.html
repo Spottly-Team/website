@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiedi Accesso - Spottly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header-like (non fisso) -->
+    <div class="top-header">
+        <div class="header-content">
+            <div class="logo"><a href="index.html" style="color: #ffffff; text-decoration: none;">Spottly</a></div>
+            <div class="header-buttons">
+                <button class="btn-primary">Scarica l'app</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="email-request-content">
+        <div class="email-request-wrapper">
+            <h1>Richiedi l'accesso</h1>
+            <p class="email-request-subtitle">Verifica se la tua scuola è già attiva oppure richiedi l'aggiunta</p>
+            
+            <!-- Lista scuole con accesso attivo -->
+            <div class="allowed-domains-section">
+                <h2>Scuole con accesso attivo</h2>
+                <p class="domains-intro">Queste scuole possono già accedere a Spottly:</p>
+                <div class="domains-list" id="allowedDomainsList">
+                    <!-- I domini verranno inseriti via JavaScript -->
+                </div>
+
+                <div class="school-not-found">
+                    <p>La tua scuola non c'è?</p>
+                    <button type="button" class="request-school-btn" id="requestSchoolBtn">
+                        Richiedi l'aggiunta della tua scuola
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form per richiedere accesso con email esistente -->
+            <form class="email-request-form" id="emailRequestForm" style="display: none;">
+                <div class="email-input-wrapper">
+                    <label for="schoolEmail" class="email-label">Inserisci la tua email scolastica</label>
+                    <input 
+                        type="email" 
+                        id="schoolEmail" 
+                        name="schoolEmail"
+                        class="email-input" 
+                        placeholder="nome.cognome@scuola.edu.it" 
+                        required
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                    >
+                    <span class="email-hint">Esempio: mario.rossi@cossali.org</span>
+                    <div class="email-status" id="emailStatus"></div>
+                </div>
+
+                <button type="submit" class="email-submit-btn" id="submitBtn">
+                    <span>Richiedi accesso</span>
+                </button>
+            </form>
+
+            <!-- Form per richiedere nuovo dominio (nascosto inizialmente) -->
+            <form class="new-domain-request-form" id="newDomainRequestForm" style="display: none;">
+                <div class="new-domain-header">
+                    <span class="new-domain-icon">📧</span>
+                    <h3>Richiedi l'aggiunta della tua scuola</h3>
+                    <p>Compila il modulo per richiedere l'aggiunta del dominio della tua scuola</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="schoolName">Nome della scuola *</label>
+                    <input 
+                        type="text" 
+                        id="schoolName" 
+                        name="schoolName"
+                        class="form-input" 
+                        placeholder="Es: Liceo Scientifico Cossali"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="schoolDomain">Dominio email della scuola *</label>
+                    <div class="domain-input-wrapper">
+                        <span class="domain-prefix">@</span>
+                        <input 
+                            type="text" 
+                            id="schoolDomain" 
+                            name="schoolDomain"
+                            class="form-input domain-input" 
+                            placeholder="cossali.org"
+                            required
+                            pattern="[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                        >
+                    </div>
+                    <span class="email-hint">Inserisci solo il dominio, senza @ (es: cossali.org)</span>
+                </div>
+
+                <button type="submit" class="email-submit-btn">
+                    <span>Invia richiesta</span>
+                </button>
+            </form>
+
+           
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-copyright">© 2025 Spottly</p>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="termini-condizioni.html">Termini e condizioni</a>
+                <a href="standard-community.html">Standard della community</a>
+                <a href="richiedi-accesso.html">Richiedi accesso</a>
+                <a href="help.html">Help</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // LISTA DOMINI CONSENTITI - Modifica questa lista per aggiungere/rimuovere domini
+        const allowedDomains = [
+            'cossali.org',
+            'liceo.edu.it',
+            'istruzione.it',
+            'scuola.edu.it'
+            // Aggiungi qui altri domini consentiti
+        ];
+
+        // Mostra la lista dei domini consentiti
+        function displayAllowedDomains() {
+            const domainsList = document.getElementById('allowedDomainsList');
+            if (!domainsList) {
+                console.error('Elemento allowedDomainsList non trovato');
+                return;
+            }
+            
+            if (allowedDomains.length === 0) {
+                domainsList.innerHTML = '<p class="no-domains">Nessun dominio configurato</p>';
+                return;
+            }
+            
+            const badges = allowedDomains.map(domain => 
+                `<span class="domain-badge">@${domain}</span>`
+            ).join('');
+            
+            domainsList.innerHTML = badges;
+            console.log('Domini visualizzati:', allowedDomains);
+        }
+
+        // Verifica se il dominio è consentito
+        function isDomainAllowed(email) {
+            if (!email || !email.includes('@')) return false;
+            const domain = email.split('@')[1].toLowerCase();
+            return allowedDomains.some(allowed => domain === allowed.toLowerCase());
+        }
+
+        // Gestisce il click sul bottone "Richiedi l'aggiunta della tua scuola"
+        document.getElementById('requestSchoolBtn').addEventListener('click', function() {
+            document.getElementById('newDomainRequestForm').style.display = 'block';
+            document.getElementById('emailRequestForm').style.display = 'none';
+            // Scroll al form
+            document.getElementById('newDomainRequestForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // Gestisce l'invio del form per richiedere accesso con email esistente
+        document.getElementById('emailRequestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('schoolEmail').value;
+            const emailDomain = email.split('@')[1];
+            const isAllowed = isDomainAllowed(email);
+            const submitBtn = document.getElementById('submitBtn');
+            const submitBtnText = submitBtn.querySelector('span');
+            
+            if (!isAllowed) {
+                alert('Il dominio della tua email non è tra quelli consentiti. Usa il pulsante "Richiedi l\'aggiunta della tua scuola" se la tua scuola non è in lista.');
+                return;
+            }
+            
+            // Mostra stato di caricamento
+            submitBtn.disabled = true;
+            submitBtnText.textContent = 'Invio in corso...';
+            
+            // Prepara i dati da inviare
+            const formData = {
+                email: email,
+                domain: emailDomain,
+                requestType: 'access_request'
+            };
+            
+            // Simula chiamata API (sostituisci con endpoint reale)
+            console.log('Dati da inviare al server:', formData);
+            
+            // Simula invio
+            setTimeout(() => {
+                submitBtnText.textContent = '✓ Richiesta inviata!';
+                submitBtn.style.backgroundColor = '#4CAF50';
+                
+                // Reset dopo 3 secondi
+                setTimeout(() => {
+                    submitBtnText.textContent = 'Richiedi accesso';
+                    submitBtn.disabled = false;
+                    submitBtn.style.backgroundColor = '';
+                    document.getElementById('emailRequestForm').reset();
+                }, 3000);
+            }, 1500);
+        });
+
+        // Gestisce l'invio del form per richiedere nuovo dominio
+        document.getElementById('newDomainRequestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const schoolName = document.getElementById('schoolName').value;
+            const schoolDomain = document.getElementById('schoolDomain').value;
+            const submitBtn = this.querySelector('.email-submit-btn');
+            const submitBtnText = submitBtn.querySelector('span');
+            
+            if (!schoolName || !schoolDomain) {
+                alert('Compila tutti i campi obbligatori');
+                return;
+            }
+            
+            // Mostra stato di caricamento
+            submitBtn.disabled = true;
+            submitBtnText.textContent = 'Invio in corso...';
+            
+            // Prepara i dati da inviare
+            const formData = {
+                schoolName: schoolName,
+                schoolDomain: schoolDomain,
+                fullDomain: `@${schoolDomain}`,
+                requestType: 'domain_request'
+            };
+            
+            // Simula chiamata API (sostituisci con endpoint reale)
+            console.log('Dati da inviare al server:', formData);
+            
+            // Simula invio
+            setTimeout(() => {
+                submitBtnText.textContent = '✓ Richiesta inviata!';
+                submitBtn.style.backgroundColor = '#4CAF50';
+                
+                // Reset dopo 3 secondi
+                setTimeout(() => {
+                    submitBtnText.textContent = 'Invia richiesta';
+                    submitBtn.disabled = false;
+                    submitBtn.style.backgroundColor = '';
+                    document.getElementById('newDomainRequestForm').reset();
+                }, 3000);
+            }, 1500);
+        });
+
+        // Inizializza - assicurati che il DOM sia caricato
+        window.addEventListener('load', function() {
+            displayAllowedDomains();
+        });
+        
+        // Chiamata immediata se il DOM è già pronto
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            displayAllowedDomains();
+        }
+    </script>
+</body>
+</html>
