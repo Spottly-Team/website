@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scarica la nostra App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .store-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .store-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: white;
+        }
+
+        .store-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .store-button:active {
+            transform: translateY(0);
+        }
+
+        .android {
+            background: #3ddc84;
+        }
+
+        .ios {
+            background: #000;
+        }
+
+        .fallback {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .store-icon {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">📱</div>
+        <h1>Scarica la nostra App</h1>
+        <p id="status">Rilevamento dispositivo in corso...</p>
+        <div class="loading" id="loading"></div>
+        <div class="store-buttons" id="buttons" style="display: none;">
+            <!-- I pulsanti verranno aggiunti dinamicamente -->
+        </div>
+    </div>
+
+    <script>
+        // Funzione per rilevare il sistema operativo
+        function detectOS() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // Rileva Android
+            if (/android/i.test(userAgent)) {
+                return 'android';
+            }
+            
+            // Rileva iOS
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return 'ios';
+            }
+            
+            return 'unknown';
+        }
+
+        // Funzione per ottenere i link degli store
+        function getStoreLinks() {
+            return {
+                android: 'https://play.google.com/store/apps/details?id=com.spottlyapp.mobile&hl=it',
+                ios: 'https://apps.apple.com/us/app/spottly/id6756431227',
+                fallback: 'https://play.google.com/store/apps/details?id=com.spottlyapp.mobile&hl=it'
+            };
+        }
+
+        // Funzione per reindirizzare allo store
+        function redirectToStore() {
+            const os = detectOS();
+            const links = getStoreLinks();
+            const statusEl = document.getElementById('status');
+            const loadingEl = document.getElementById('loading');
+            const buttonsEl = document.getElementById('buttons');
+
+            // Nascondi il loading dopo un breve delay
+            setTimeout(() => {
+                loadingEl.style.display = 'none';
+                
+                if (os === 'android') {
+                    statusEl.textContent = 'Rilevato dispositivo Android';
+                    window.location.href = links.android;
+                } else if (os === 'ios') {
+                    statusEl.textContent = 'Rilevato dispositivo iOS';
+                    window.location.href = links.ios;
+                } else {
+                    // Mostra entrambi i pulsanti se non riesce a rilevare
+                    statusEl.textContent = 'Seleziona il tuo dispositivo:';
+                    buttonsEl.style.display = 'flex';
+                    buttonsEl.innerHTML = `
+                        <a href="${links.android}" class="store-button android">
+                            <span class="store-icon">🤖</span>
+                            <span>Google Play Store</span>
+                        </a>
+                        <a href="${links.ios}" class="store-button ios">
+                            <span class="store-icon">🍎</span>
+                            <span>App Store</span>
+                        </a>
+                    `;
+                }
+            }, 1000);
+        }
+
+        // Avvia il reindirizzamento quando la pagina è caricata
+        window.addEventListener('DOMContentLoaded', redirectToStore);
+    </script>
+</body>
+</html>
