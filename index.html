@@ -11,11 +11,18 @@
                     sessionStorage.removeItem('spottly_from_store');
                     return;
                 }
-                sessionStorage.setItem('spottly_from_store', '1');
-                if (isIPhone) {
-                    window.location.href = 'https://apps.apple.com/us/app/spottly/id6756431227';
+                function doRedirect() {
+                    sessionStorage.setItem('spottly_from_store', '1');
+                    if (isIPhone) {
+                        window.location.href = 'https://apps.apple.com/us/app/spottly/id6756431227';
+                    } else {
+                        window.location.href = 'https://play.google.com/store/apps/details?id=com.spottlyapp.mobile&hl=it';
+                    }
+                }
+                if (document.readyState === 'complete') {
+                    setTimeout(doRedirect, 100);
                 } else {
-                    window.location.href = 'https://play.google.com/store/apps/details?id=com.spottlyapp.mobile&hl=it';
+                    window.addEventListener('load', function() { setTimeout(doRedirect, 100); });
                 }
             }
         })();
