@@ -137,7 +137,45 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-    <script src="shop-config.js"></script>
+    <!-- Config integrata: funziona anche se shop-config.js non è sul server. Modifica solo qui sotto. -->
+    <script>
+        window.SPOTTLY_SHOP_INLINE_CONFIG = {
+            paypalClientId: 'ASaJ2EbCjAWDZoF8xzNFKEAe-8aemQ5lpKy9MY33uE3zc-d_XkbZJPqFPBhn4R5Wm8f5avHrhB2NtSX7',
+            tesseraPriceEur: '14.99',
+            firebase: {
+                apiKey: 'AIzaSyDibLwVlbGIBs5LYymKNrS-Z7m0t7Ht7vU',
+                authDomain: 'sixsevennnn-dk.firebaseapp.com',
+                projectId: 'sixsevennnn-dk',
+                storageBucket: 'sixsevennnn-dk.firebasestorage.app',
+                messagingSenderId: '159481500389',
+                appId: '1:159481500389:web:9aa45e611d2178c7e43a0c',
+                measurementId: 'G-26X78QB84G'
+            },
+            firebaseCollection: 'shop_orders'
+        };
+    </script>
+    <script src="shop-config.js?v=2"></script>
+    <script>
+        (function () {
+            var inline = window.SPOTTLY_SHOP_INLINE_CONFIG || {};
+
+            if (!String(window.SPOTTLY_PAYPAL_CLIENT_ID || '').trim() && inline.paypalClientId) {
+                window.SPOTTLY_PAYPAL_CLIENT_ID = inline.paypalClientId;
+            }
+
+            if (!String(window.SPOTTLY_TESSERA_PRICE_EUR || '').trim() && inline.tesseraPriceEur) {
+                window.SPOTTLY_TESSERA_PRICE_EUR = inline.tesseraPriceEur;
+            }
+
+            if ((!window.SPOTTLY_FIREBASE_CONFIG || !window.SPOTTLY_FIREBASE_CONFIG.apiKey) && inline.firebase) {
+                window.SPOTTLY_FIREBASE_CONFIG = inline.firebase;
+            }
+
+            if (!String(window.SPOTTLY_FIREBASE_COLLECTION || '').trim() && inline.firebaseCollection) {
+                window.SPOTTLY_FIREBASE_COLLECTION = inline.firebaseCollection;
+            }
+        })();
+    </script>
     <script>
         (function () {
             var form = document.getElementById('shopForm');
@@ -278,7 +316,7 @@
             }
 
             function getTesseraPriceEur() {
-                var price = String(window.SPOTTLY_TESSERA_PRICE_EUR || '').trim();
+                var price = String(window.SPOTTLY_TESSERA_PRICE_EUR || '').trim().replace(',', '.');
 
                 if (!/^\d+(\.\d{1,2})?$/.test(price)) {
                     return null;
@@ -448,7 +486,9 @@
                 var price = getTesseraPriceEur();
 
                 if (!getPaypalClientId()) {
-                    showFormError('Pagamento online non attivo: configura SPOTTLY_PAYPAL_CLIENT_ID in shop-config.js.');
+                    showFormError(
+                        'PayPal non configurato. Apri shop.html, cerca SPOTTLY_SHOP_INLINE_CONFIG e imposta paypalClientId con il Client ID da PayPal Developer.'
+                    );
                     return;
                 }
 
