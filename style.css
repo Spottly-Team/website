@@ -2460,15 +2460,251 @@ body {
     margin-top: 24px;
 }
 
-.shop-paypal {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #2a2a2a;
+.shop-checkout {
+    margin-top: 24px;
+    padding: 28px 24px;
+    border-radius: 18px;
+    border: 1px solid #3a3a3a;
+    background: linear-gradient(165deg, #161616 0%, #0a0a0a 100%);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
 }
 
-.shop-paypal__buttons {
-    margin-top: 16px;
-    min-height: 45px;
+.shop-checkout__header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.shop-checkout__eyebrow {
+    margin: 0 0 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #a3a3a3;
+}
+
+.shop-checkout__title {
+    margin: 0 0 10px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.65rem, 4vw, 2rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.15;
+}
+
+.shop-checkout__amount {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+}
+
+.shop-checkout__lead {
+    margin: 0 0 24px;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: #e8e8e8;
+}
+
+.shop-checkout__lead strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* PayPal popup: il body nero eredita testo bianco → etichette invisibili sul modulo carta */
+body > [id*="zoid"],
+body > [class*="zoid"],
+body > [data-zoid-app],
+body > [class*="paypal-checkout"],
+body > [id*="paypal-overlay"] {
+    color: #1f2937 !important;
+}
+
+body > [id*="zoid"] label,
+body > [id*="zoid"] input,
+body > [id*="zoid"] select,
+body > [id*="zoid"] p,
+body > [id*="zoid"] span,
+body > [id*="zoid"] h1,
+body > [id*="zoid"] h2,
+body > [id*="zoid"] h3,
+body > [class*="zoid"] label,
+body > [class*="zoid"] input,
+body > [class*="zoid"] select,
+body > [class*="zoid"] p,
+body > [class*="zoid"] span {
+    color: #1f2937 !important;
+}
+
+body > [id*="zoid"] input,
+body > [id*="zoid"] select,
+body > [class*="zoid"] input,
+body > [class*="zoid"] select {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+.shop-checkout__pay-surface {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 8px;
+    padding: 22px 20px;
+    border-radius: 16px;
+    background-color: #f7f7f7;
+    color: #1a1a1a;
+    color-scheme: light;
+}
+
+.shop-checkout__pay-surface .shop-checkout__method-label {
+    color: #374151;
+}
+
+.shop-checkout__hint {
+    margin: 10px 0 0;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: #6b7280;
+}
+
+.shop-checkout__methods {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.shop-checkout__method-label {
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b8b8b8;
+}
+
+.shop-checkout__buttons {
+    min-height: 48px;
+}
+
+.shop-checkout__buttons iframe,
+.shop-checkout__buttons > div {
+    max-width: 100%;
+}
+
+.shop-checkout__footnote {
+    margin: 22px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid #2a2a2a;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: #9a9a9a;
+}
+
+.shop-checkout__back {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #cccccc;
+    font-size: 0.92rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.shop-checkout__back:hover {
+    color: #ffffff;
+}
+
+.shop-checkout.is-processing {
+    opacity: 0.72;
+    pointer-events: none;
+}
+
+.shop-card-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.shop-card-form__legend {
+    margin: 4px 0 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #4b5563;
+}
+
+.shop-card-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.shop-card-field label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.shop-card-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #111827;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.shop-card-input::placeholder {
+    color: #9ca3af;
+}
+
+.shop-card-input:focus {
+    outline: none;
+    border-color: #111827;
+    box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.12);
+}
+
+.shop-card-input-host {
+    min-height: 48px;
+    padding: 4px 2px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.shop-card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.shop-card-field--narrow {
+    max-width: 160px;
+}
+
+.shop-card-submit {
+    margin-top: 8px;
+    width: 100%;
+}
+
+@media (max-width: 520px) {
+    .shop-card-row {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-card-field--narrow {
+        max-width: none;
+    }
 }
 
 .shop-whatsapp-btn {
