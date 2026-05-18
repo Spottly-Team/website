@@ -2569,6 +2569,15 @@ body > [class*="zoid"] select {
     color: #6b7280;
 }
 
+.shop-checkout__hint--card {
+    margin: 0 0 4px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+}
+
 .shop-checkout__methods {
     display: flex;
     flex-direction: column;
