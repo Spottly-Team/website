@@ -100,11 +100,29 @@
                     >Contatta su WhatsApp per il ritiro</a>
                     <p class="shop-form__error" id="shopFormError" hidden role="alert"></p>
 
-                    <div class="shop-paypal" id="shopPaypalWrap" hidden>
-                        <p class="shop-form__note">
-                            Completa il pagamento con PayPal qui sotto. L'ordine viene registrato solo dopo un pagamento riuscito.
+                    <div class="shop-checkout" id="shopPaypalWrap" hidden aria-labelledby="shopCheckoutTitle">
+                        <div class="shop-checkout__header">
+                            <p class="shop-checkout__eyebrow">Pagamento sicuro</p>
+                            <h2 class="shop-checkout__title" id="shopCheckoutTitle">Completa l'acquisto</h2>
+                            <p class="shop-checkout__amount" id="shopCheckoutAmount">Totale · €14,99</p>
+                        </div>
+                        <p class="shop-checkout__lead">
+                            Scegli come pagare. L'ordine viene registrato <strong>solo</strong> dopo un pagamento riuscito.
                         </p>
-                        <div class="shop-paypal__buttons" id="shopPaypalButtons"></div>
+                        <div class="shop-checkout__methods">
+                            <div class="shop-checkout__method" id="shopApplePaySection" hidden>
+                                <p class="shop-checkout__method-label">Apple Pay</p>
+                                <div class="shop-checkout__buttons" id="shopApplePayButtons"></div>
+                            </div>
+                            <div class="shop-checkout__method">
+                                <p class="shop-checkout__method-label" id="shopPaypalMethodLabel">PayPal o carta</p>
+                                <div class="shop-checkout__buttons" id="shopPaypalButtons"></div>
+                            </div>
+                        </div>
+                        <p class="shop-checkout__footnote">
+                            Pagamenti gestiti da PayPal. Per il ritiro della tessera usa WhatsApp dopo la conferma.
+                        </p>
+                        <button type="button" class="shop-checkout__back" id="shopCheckoutBack">← Torna al modulo</button>
                     </div>
 
                     <button type="submit" class="email-submit-btn shop-submit" id="shopSubmitBtn">
@@ -194,6 +212,10 @@
             var pickupWhatsappBtn = document.getElementById('shopPickupWhatsapp');
             var paypalWrap = document.getElementById('shopPaypalWrap');
             var paypalButtonsEl = document.getElementById('shopPaypalButtons');
+            var applePayButtonsEl = document.getElementById('shopApplePayButtons');
+            var applePaySection = document.getElementById('shopApplePaySection');
+            var checkoutAmountEl = document.getElementById('shopCheckoutAmount');
+            var checkoutBackBtn = document.getElementById('shopCheckoutBack');
             var pendingCheckoutOrder = null;
             var paypalButtonsRendered = false;
             var paypalSdkPromise = null;
@@ -213,8 +235,8 @@
 
                 if (mode === 'online-pickup') {
                     return {
-                        note: 'Dopo l\'invio potrai pagare con PayPal qui sotto. L\'ordine viene salvato solo se il pagamento va a buon fine. Per il ritiro contatta su WhatsApp al numero ' + pickupWhatsappLink + '.',
-                        label: 'Continua verso il pagamento PayPal'
+                        note: 'Dopo l\'invio potrai pagare con Apple Pay, PayPal o carta. L\'ordine viene salvato solo se il pagamento va a buon fine. Per il ritiro contatta su WhatsApp al numero ' + pickupWhatsappLink + '.',
+                        label: 'Continua al pagamento'
                     };
                 }
 
@@ -325,6 +347,31 @@
                 return price;
             }
 
+            function formatPriceLabel(price) {
+                var parts = price.split('.');
+                var decimals = parts[1] || '00';
+
+                if (decimals.length === 1) {
+                    decimals += '0';
+                }
+
+                return '€' + parts[0] + ',' + decimals;
+            }
+
+            function updateCheckoutAmountDisplay() {
+                var price = getTesseraPriceEur();
+
+                if (checkoutAmountEl && price) {
+                    checkoutAmountEl.textContent = 'Totale · ' + formatPriceLabel(price);
+                }
+            }
+
+            function setCheckoutProcessing(isProcessing) {
+                if (paypalWrap) {
+                    paypalWrap.classList.toggle('is-processing', isProcessing);
+                }
+            }
+
             function loadPaypalSdk() {
                 if (window.paypal) {
                     return Promise.resolve();
@@ -342,7 +389,12 @@
 
                 paypalSdkPromise = new Promise(function (resolve, reject) {
                     var script = document.createElement('script');
-                    script.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(clientId) + '&currency=EUR&intent=capture';
+                    script.src = 'https://www.paypal.com/sdk/js?client-id=' +
+                        encodeURIComponent(clientId) +
+                        '&currency=EUR&intent=capture&components=buttons' +
+                        '&enable-funding=applepay,card' +
+                        '&disable-funding=venmo,paylater' +
+                        '&locale=it_IT';
                     script.async = true;
                     script.onload = function () {
                         if (window.paypal) {
@@ -364,27 +416,23 @@
             function hidePaypalCheckout() {
                 paypalWrap.hidden = true;
                 submitBtn.hidden = false;
+                setCheckoutProcessing(false);
+                paypalButtonsEl.innerHTML = '';
+                applePayButtonsEl.innerHTML = '';
+                applePaySection.hidden = true;
+                paypalButtonsRendered = false;
             }
 
-            function renderPaypalButtons() {
-                if (paypalButtonsRendered || !window.paypal) {
-                    return;
+            function getPaymentMethodLabel(data) {
+                if (data && data.paymentSource) {
+                    return String(data.paymentSource);
                 }
 
-                var price = getTesseraPriceEur();
+                return 'paypal';
+            }
 
-                if (!price) {
-                    showFormError('Configura SPOTTLY_TESSERA_PRICE_EUR in shop-config.js (es. 29.00).');
-                    return;
-                }
-
-                paypal.Buttons({
-                    style: {
-                        layout: 'vertical',
-                        color: 'white',
-                        shape: 'rect',
-                        label: 'pay'
-                    },
+            function buildPaymentButtonHandlers(price) {
+                return {
                     createOrder: function (data, actions) {
                         return actions.order.create({
                             purchase_units: [{
@@ -402,6 +450,7 @@
                         }
 
                         setSubmitting(true, 'Conferma pagamento...');
+                        setCheckoutProcessing(true);
                         hideFormError();
 
                         return actions.order.capture().then(function (details) {
@@ -417,6 +466,7 @@
 
                             var orderToSave = Object.assign({}, pendingCheckoutOrder, {
                                 paymentStatus: 'paid',
+                                paymentMethod: getPaymentMethodLabel(data),
                                 paypalOrderId: data.orderID,
                                 paypalCaptureId: capture ? capture.id : '',
                                 paidAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -433,18 +483,65 @@
                             });
                         }).catch(function (error) {
                             setSubmitting(false);
+                            setCheckoutProcessing(false);
                             showFormError(error.message || 'Non siamo riusciti a confermare il pagamento. Riprova.');
                         });
                     },
                     onCancel: function () {
                         setSubmitting(false);
+                        setCheckoutProcessing(false);
                         showFormError('Pagamento annullato. Puoi riprovare quando vuoi.');
                     },
                     onError: function () {
                         setSubmitting(false);
-                        showFormError('Si è verificato un errore con PayPal. Riprova tra poco.');
+                        setCheckoutProcessing(false);
+                        showFormError('Si è verificato un errore con il pagamento. Riprova tra poco.');
                     }
-                }).render('#shopPaypalButtons');
+                };
+            }
+
+            function renderPaypalButtons() {
+                if (paypalButtonsRendered || !window.paypal) {
+                    return;
+                }
+
+                var price = getTesseraPriceEur();
+
+                if (!price) {
+                    showFormError('Configura SPOTTLY_TESSERA_PRICE_EUR in shop-config.js (es. 14.99).');
+                    return;
+                }
+
+                updateCheckoutAmountDisplay();
+
+                var handlers = buildPaymentButtonHandlers(price);
+
+                paypal.Buttons(Object.assign({
+                    style: {
+                        layout: 'vertical',
+                        color: 'gold',
+                        shape: 'rect',
+                        label: 'paypal',
+                        height: 48
+                    }
+                }, handlers)).render('#shopPaypalButtons');
+
+                if (paypal.FUNDING && paypal.FUNDING.APPLEPAY) {
+                    var applePayButtons = paypal.Buttons(Object.assign({
+                        fundingSource: paypal.FUNDING.APPLEPAY,
+                        style: {
+                            layout: 'vertical',
+                            color: 'black',
+                            label: 'pay',
+                            height: 48
+                        }
+                    }, handlers));
+
+                    if (applePayButtons.isEligible()) {
+                        applePaySection.hidden = false;
+                        applePayButtons.render('#shopApplePayButtons');
+                    }
+                }
 
                 paypalButtonsRendered = true;
             }
@@ -475,6 +572,10 @@
                     payload.paypalCaptureId = order.paypalCaptureId;
                 }
 
+                if (order.paymentMethod) {
+                    payload.paymentMethod = order.paymentMethod;
+                }
+
                 if (order.paidAt) {
                     payload.paidAt = order.paidAt;
                 }
@@ -501,12 +602,16 @@
                 setSubmitting(true, 'Caricamento PayPal...');
                 hideFormError();
 
+                updateCheckoutAmountDisplay();
+
                 loadPaypalSdk().then(function () {
                     setSubmitting(false);
                     submitBtn.hidden = true;
+                    modeNote.hidden = true;
+                    pickupWhatsappBtn.hidden = true;
                     paypalWrap.hidden = false;
                     renderPaypalButtons();
-                    paypalWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    paypalWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }).catch(function (error) {
                     pendingCheckoutOrder = null;
                     setSubmitting(false);
@@ -514,9 +619,21 @@
                 });
             }
 
+            updateCheckoutAmountDisplay();
+
             modeInputs.forEach(function (input) {
                 input.addEventListener('change', updateMode);
             });
+
+            if (checkoutBackBtn) {
+                checkoutBackBtn.addEventListener('click', function () {
+                    hidePaypalCheckout();
+                    pendingCheckoutOrder = null;
+                    hideFormError();
+                    setSubmitting(false);
+                    updateMode();
+                });
+            }
 
             document.getElementById('shopResetBtn').addEventListener('click', function () {
                 form.reset();
