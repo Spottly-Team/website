@@ -2,7 +2,8 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
     <meta name="robots" content="noindex, nofollow">
     <title>Ordini tessera - Spottly</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -288,17 +289,245 @@
             line-height: 1.5;
         }
 
+        .orders-list--cards {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .orders-card {
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            background-color: #111111;
+            padding: 16px;
+        }
+
+        .orders-card.is-delivered {
+            opacity: 0.72;
+        }
+
+        .orders-card__top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .orders-card__date {
+            color: #888888;
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
+        .orders-card__name {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        .orders-card__contacts {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .orders-card__contact-row {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .orders-card__contact-label {
+            color: #666666;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .orders-card__contact-value {
+            color: #dddddd;
+            font-size: 0.95rem;
+            line-height: 1.45;
+            word-break: break-word;
+        }
+
+        .orders-card__contact-value a {
+            color: #ffffff;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .orders-card__actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .orders-card__actions .orders-btn--small,
+        .orders-card__actions .orders-btn--whatsapp {
+            width: 100%;
+            min-height: 44px;
+            text-align: center;
+        }
+
+        .orders-card__actions .orders-btn--whatsapp {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         @media (max-width: 768px) {
+            .orders-page {
+                -webkit-text-size-adjust: 100%;
+            }
+
             .orders-content {
-                padding-top: 32px;
+                padding: max(16px, env(safe-area-inset-top)) 16px max(32px, env(safe-area-inset-bottom));
+            }
+
+            .orders-auth {
+                max-width: none;
+                margin: 0;
+                padding: 24px 18px;
+                border-radius: 16px;
+            }
+
+            .orders-auth h2 {
+                font-size: 1.35rem;
+            }
+
+            .orders-auth .form-input {
+                min-height: 48px;
+                font-size: 16px;
+            }
+
+            .orders-auth__submit {
+                min-height: 48px;
+            }
+
+            .orders-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+
+            .orders-header h1 {
+                font-size: 1.65rem;
+                margin-bottom: 6px;
+            }
+
+            .orders-header p {
+                font-size: 0.92rem;
             }
 
             .orders-actions {
                 width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
             }
 
             .orders-btn {
-                flex: 1;
+                min-height: 44px;
+                padding: 12px 14px;
+                font-size: 0.9rem;
+            }
+
+            .orders-status {
+                font-size: 0.92rem;
+            }
+
+            .orders-search {
+                margin-bottom: 20px;
+                position: sticky;
+                top: 0;
+                z-index: 2;
+                padding: 12px 0 14px;
+                margin-top: -12px;
+                background: linear-gradient(180deg, #000000 70%, rgba(0, 0, 0, 0));
+            }
+
+            .orders-search .form-input {
+                min-height: 48px;
+                font-size: 16px;
+            }
+
+            .orders-search__hint {
+                font-size: 0.8rem;
+            }
+
+            .orders-summary {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 10px;
+                margin-bottom: 24px;
+            }
+
+            .orders-summary__card {
+                padding: 14px 12px;
+                border-radius: 14px;
+            }
+
+            .orders-summary__label {
+                font-size: 0.72rem;
+                line-height: 1.35;
+                margin-bottom: 6px;
+            }
+
+            .orders-summary__value {
+                font-size: 1.5rem;
+            }
+
+            .orders-section {
+                margin-bottom: 28px;
+            }
+
+            .orders-section__header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                margin-bottom: 12px;
+            }
+
+            .orders-section__header h2 {
+                font-size: 1.15rem;
+            }
+
+            .orders-section__note {
+                font-size: 0.85rem;
+            }
+
+            .orders-table-wrap--desktop {
+                display: none;
+            }
+
+            .orders-list--cards {
+                display: flex;
+            }
+
+            .orders-empty {
+                padding: 24px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .orders-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .orders-summary__value {
+                font-size: 1.75rem;
+            }
+
+            .orders-actions {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -368,7 +597,8 @@
                 <h2>Pagati online</h2>
                 <p class="orders-section__note">Richieste con acquisto online prima del redirect a PayPal.</p>
             </div>
-            <div class="orders-table-wrap">
+            <div class="orders-list orders-list--cards" id="onlineOrdersCards" aria-live="polite"></div>
+            <div class="orders-table-wrap orders-table-wrap--desktop">
                 <table class="orders-table">
                     <thead>
                         <tr>
@@ -380,8 +610,8 @@
                     </thead>
                     <tbody id="onlineOrdersBody"></tbody>
                 </table>
-                <p class="orders-empty" id="onlineOrdersEmpty" hidden>Nessun ordine online al momento.</p>
             </div>
+            <p class="orders-empty" id="onlineOrdersEmpty" hidden>Nessun ordine online al momento.</p>
         </section>
 
         <section class="orders-section" id="localSection" hidden>
@@ -389,7 +619,8 @@
                 <h2>Da pagare in locale</h2>
                 <p class="orders-section__note">Prenotazioni da confermare e saldare in sede al ritiro.</p>
             </div>
-            <div class="orders-table-wrap">
+            <div class="orders-list orders-list--cards" id="localOrdersCards" aria-live="polite"></div>
+            <div class="orders-table-wrap orders-table-wrap--desktop">
                 <table class="orders-table">
                     <thead>
                         <tr>
@@ -401,8 +632,8 @@
                     </thead>
                     <tbody id="localOrdersBody"></tbody>
                 </table>
-                <p class="orders-empty" id="localOrdersEmpty" hidden>Nessuna prenotazione locale al momento.</p>
             </div>
+            <p class="orders-empty" id="localOrdersEmpty" hidden>Nessuna prenotazione locale al momento.</p>
         </section>
         </div>
     </main>
@@ -429,6 +660,8 @@
             var totalCountEl = document.getElementById('totalCount');
             var onlineOrdersBody = document.getElementById('onlineOrdersBody');
             var localOrdersBody = document.getElementById('localOrdersBody');
+            var onlineOrdersCards = document.getElementById('onlineOrdersCards');
+            var localOrdersCards = document.getElementById('localOrdersCards');
             var onlineOrdersEmpty = document.getElementById('onlineOrdersEmpty');
             var localOrdersEmpty = document.getElementById('localOrdersEmpty');
             var refreshBtn = document.getElementById('ordersRefreshBtn');
@@ -549,6 +782,50 @@
                     '</tr>';
             }
 
+            function buildContactCardRows(order) {
+                var email = escapeHtml(order.email);
+                var phone = escapeHtml(order.phone);
+
+                return '<div class="orders-card__contact-row">' +
+                    '<span class="orders-card__contact-label">Email</span>' +
+                    '<span class="orders-card__contact-value"><a href="mailto:' + email + '">' + email + '</a></span>' +
+                    '</div>' +
+                    '<div class="orders-card__contact-row">' +
+                    '<span class="orders-card__contact-label">Telefono</span>' +
+                    '<span class="orders-card__contact-value">' + phone + '</span>' +
+                    '</div>';
+            }
+
+            function buildOrderCard(order) {
+                var fullName = escapeHtml(order.firstName + ' ' + order.lastName);
+                var orderId = escapeHtml(order.id);
+                var cardClass = isDelivered(order) ? 'orders-card is-delivered' : 'orders-card';
+                var statusClass = isDelivered(order) ? 'orders-delivery--done' : 'orders-delivery--pending';
+                var statusLabel = isDelivered(order) ? 'Consegnato' : 'In attesa';
+                var actionLabel = isDelivered(order) ? 'Segna non consegnato' : 'Segna consegnato';
+                var action = isDelivered(order) ? 'undeliver' : 'deliver';
+                var phoneDigits = normalizePhone(order.phone);
+                var whatsappHref = phoneDigits
+                    ? 'https://wa.me/' + phoneDigits.replace(/^\+/, '')
+                    : '';
+                var whatsappButton = whatsappHref
+                    ? '<a href="' + whatsappHref + '" class="orders-btn orders-btn--small orders-btn--whatsapp" target="_blank" rel="noopener noreferrer">WhatsApp</a>'
+                    : '';
+
+                return '<article class="' + cardClass + '" data-order-id="' + orderId + '">' +
+                    '<div class="orders-card__top">' +
+                    '<time class="orders-card__date">' + escapeHtml(formatDate(order.createdAt)) + '</time>' +
+                    '<span class="orders-delivery ' + statusClass + '">' + statusLabel + '</span>' +
+                    '</div>' +
+                    '<h3 class="orders-card__name">' + fullName + '</h3>' +
+                    '<div class="orders-card__contacts">' + buildContactCardRows(order) + '</div>' +
+                    '<div class="orders-card__actions">' +
+                    whatsappButton +
+                    '<button type="button" class="orders-btn orders-btn--small" data-order-action="' + action + '" data-order-id="' + orderId + '">' + actionLabel + '</button>' +
+                    '</div>' +
+                    '</article>';
+            }
+
             function setStatus(message, isError) {
                 statusEl.textContent = message;
                 statusEl.className = 'orders-status' + (isError ? ' orders-status--error' : '');
@@ -597,6 +874,8 @@
 
                 onlineOrdersBody.innerHTML = onlineOrders.map(buildOrderRow).join('');
                 localOrdersBody.innerHTML = localOrders.map(buildOrderRow).join('');
+                onlineOrdersCards.innerHTML = onlineOrders.map(buildOrderCard).join('');
+                localOrdersCards.innerHTML = localOrders.map(buildOrderCard).join('');
 
                 setEmptyState(
                     onlineOrdersEmpty,
@@ -762,6 +1041,8 @@
             searchInput.addEventListener('input', applyFiltersAndRender);
             onlineOrdersBody.addEventListener('click', handleOrderActionClick);
             localOrdersBody.addEventListener('click', handleOrderActionClick);
+            onlineOrdersCards.addEventListener('click', handleOrderActionClick);
+            localOrdersCards.addEventListener('click', handleOrderActionClick);
 
             logoutBtn.addEventListener('click', function () {
                 var firebaseApp = initializeFirebase();
