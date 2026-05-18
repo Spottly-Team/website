@@ -2350,6 +2350,9 @@ body {
     border: 1px solid #2a2a2a;
     border-radius: 18px;
     padding: 32px;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .shop-options {
@@ -2461,56 +2464,51 @@ body {
 }
 
 .shop-checkout {
-    margin-top: 24px;
-    padding: 28px 24px;
-    border-radius: 18px;
-    border: 1px solid #3a3a3a;
-    background: linear-gradient(165deg, #161616 0%, #0a0a0a 100%);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    margin-top: 20px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .shop-checkout__header {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #2a2a2a;
+    margin-bottom: 16px;
+    padding: 20px 18px;
+    border-radius: 16px;
+    border: 1px solid #2a2a2a;
+    background-color: #111111;
+    text-align: center;
 }
 
 .shop-checkout__eyebrow {
-    margin: 0 0 8px;
-    font-size: 0.75rem;
+    margin: 0 0 6px;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #a3a3a3;
+    color: #9ca3af;
 }
 
 .shop-checkout__title {
-    margin: 0 0 10px;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.65rem, 4vw, 2rem);
+    margin: 0 0 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.35rem;
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.15;
+    line-height: 1.25;
 }
 
 .shop-checkout__amount {
+    display: inline-block;
     margin: 0;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: 0.02em;
-}
-
-.shop-checkout__lead {
-    margin: 0 0 24px;
-    font-size: 0.98rem;
-    line-height: 1.65;
-    color: #e8e8e8;
-}
-
-.shop-checkout__lead strong {
-    color: #ffffff;
-    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
 }
 
 /* PayPal popup: il body nero eredita testo bianco → etichette invisibili sul modulo carta */
@@ -2547,64 +2545,11 @@ body > [class*="zoid"] select {
 }
 
 .shop-checkout__pay-surface {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 8px;
-    padding: 20px 16px;
+    padding: 16px 14px 18px;
     border-radius: 16px;
-    background-color: #f7f7f7;
-    color: #1a1a1a;
-    color-scheme: light;
-}
-
-.shop-checkout__method {
-    min-width: 0;
-}
-
-.shop-checkout__method + .shop-checkout__method {
-    padding-top: 18px;
-    border-top: 1px solid #e5e7eb;
-}
-
-.shop-checkout__pay-surface .shop-checkout__method-label {
-    color: #374151;
-}
-
-.shop-checkout__hint {
-    margin: 10px 0 0;
-    font-size: 0.86rem;
-    line-height: 1.5;
-    color: #6b7280;
-}
-
-.shop-checkout__hint--card {
-    margin: 0;
-    padding: 12px 14px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    color: #374151;
-}
-
-.shop-checkout__hint--card strong {
+    background-color: #f5f5f5;
     color: #111827;
-    font-weight: 600;
-}
-
-.shop-checkout__methods {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
-
-.shop-checkout__method-label {
-    margin: 0 0 12px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #b8b8b8;
+    color-scheme: light;
 }
 
 .shop-checkout__buttons {
@@ -2623,54 +2568,10 @@ body > [class*="zoid"] select {
     min-width: 0 !important;
 }
 
-.shop-checkout__buttons--applepay {
-    min-height: 52px;
-}
-
-.shop-checkout__buttons--applepay apple-pay-button {
-    display: block;
-    width: 100%;
-    min-height: 48px;
-    --apple-pay-button-width: 100%;
-    --apple-pay-button-height: 48px;
-    --apple-pay-button-border-radius: 10px;
-}
-
-.shop-checkout__method--applepay {
-    padding-bottom: 4px;
-}
-
-.shop-checkout__footnote {
-    margin: 22px 0 0;
-    padding-top: 18px;
-    border-top: 1px solid #2a2a2a;
-    font-size: 0.85rem;
-    line-height: 1.55;
-    color: #9a9a9a;
-}
-
 .shop-checkout__back {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
-    margin-top: 16px;
-    padding: 14px 18px;
-    border: 1px solid #3a3a3a;
-    border-radius: 12px;
-    background-color: #141414;
-    color: #e5e5e5;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    min-height: 48px;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.shop-checkout__back:hover {
-    background-color: #1f1f1f;
-    color: #ffffff;
+    margin-top: 14px;
+    margin-bottom: 0;
 }
 
 .shop-checkout.is-processing {
@@ -3008,13 +2909,21 @@ body > [class*="zoid"] select {
 
 @media (max-width: 768px) {
     .shop-content {
-        padding: 40px 16px max(72px, calc(72px + env(safe-area-inset-bottom)));
-        padding-left: max(16px, env(safe-area-inset-left));
-        padding-right: max(16px, env(safe-area-inset-right));
+        padding: 24px max(16px, env(safe-area-inset-right)) max(64px, calc(64px + env(safe-area-inset-bottom))) max(16px, env(safe-area-inset-left));
+    }
+
+    .shop-panel__header h1 {
+        font-size: 1.75rem;
+    }
+
+    .shop-lead {
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
     .shop-form {
-        padding: 22px 16px;
+        padding: 20px 16px;
+        border-radius: 16px;
     }
 
     .form-row {
@@ -3022,73 +2931,49 @@ body > [class*="zoid"] select {
     }
 
     .shop-checkout {
-        margin-top: 20px;
-        padding: 18px 14px;
-        border-radius: 16px;
+        margin-top: 16px;
     }
 
     .shop-checkout__header {
-        margin-bottom: 14px;
-        padding-bottom: 14px;
+        padding: 18px 16px;
+        margin-bottom: 12px;
     }
 
     .shop-checkout__title {
-        font-size: 1.5rem;
-        line-height: 1.2;
+        font-size: 1.25rem;
     }
 
     .shop-checkout__amount {
-        font-size: 1.2rem;
-    }
-
-    .shop-checkout__lead {
-        margin-bottom: 16px;
-        font-size: 0.92rem;
-        line-height: 1.55;
+        font-size: 1.1rem;
+        padding: 7px 16px;
     }
 
     .shop-checkout__pay-surface {
-        gap: 14px;
-        padding: 14px 12px;
-        border-radius: 12px;
-    }
-
-    .shop-checkout__method + .shop-checkout__method {
-        padding-top: 14px;
-    }
-
-    .shop-checkout__pay-surface .shop-checkout__method-label {
-        font-size: 0.72rem;
-        margin-bottom: 8px;
-        letter-spacing: 0.05em;
+        padding: 14px 12px 16px;
+        border-radius: 14px;
     }
 
     .shop-checkout__buttons {
         min-height: 52px;
-    }
-
-    .shop-checkout__hint,
-    .shop-checkout__hint--card {
-        font-size: 0.84rem;
-        line-height: 1.45;
-    }
-
-    .shop-checkout__footnote {
-        margin-top: 14px;
-        padding-top: 14px;
-        font-size: 0.82rem;
-        line-height: 1.5;
-        text-align: center;
+        gap: 12px;
     }
 
     .shop-checkout__back {
-        margin-top: 14px;
+        margin-top: 12px;
+        padding: 16px 20px;
+        font-size: 1rem;
     }
 
     .shop-form__note {
-        font-size: 0.88rem;
+        font-size: 0.86rem;
+        line-height: 1.5;
+        padding: 12px;
+        margin-top: 14px;
+    }
+
+    .shop-form__privacy {
+        font-size: 0.8rem;
         line-height: 1.55;
-        padding: 12px 14px;
     }
 
     .shop-submit,
@@ -3097,27 +2982,10 @@ body > [class*="zoid"] select {
         text-align: center;
         box-sizing: border-box;
     }
-}
 
-@media (max-width: 390px) {
-    .shop-checkout__eyebrow {
-        font-size: 0.7rem;
-        letter-spacing: 0.1em;
-    }
-
-    .shop-checkout__title {
-        font-size: 1.35rem;
-    }
-
-    .shop-checkout__amount {
-        font-size: 1.1rem;
-    }
-
-    .shop-checkout__lead {
-        font-size: 0.88rem;
-    }
-
-    .shop-checkout__hint--card {
-        padding: 10px 12px;
+    .shop-whatsapp-btn {
+        margin-top: 12px;
+        padding: 16px 20px;
+        font-size: 1rem;
     }
 }

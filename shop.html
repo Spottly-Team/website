@@ -104,33 +104,12 @@
                         <div class="shop-checkout__header">
                             <p class="shop-checkout__eyebrow">Pagamento sicuro</p>
                             <h2 class="shop-checkout__title" id="shopCheckoutTitle">Completa l'acquisto</h2>
-                            <p class="shop-checkout__amount" id="shopCheckoutAmount">Totale · €14,99</p>
+                            <p class="shop-checkout__amount" id="shopCheckoutAmount">€14,99</p>
                         </div>
-                        <p class="shop-checkout__lead">
-                            Scegli il metodo di pagamento. L'ordine si registra <strong>solo</strong> dopo il pagamento riuscito.
-                        </p>
                         <div class="shop-checkout__pay-surface">
-                            <div class="shop-checkout__method shop-checkout__method--applepay" id="shopApplePaySection">
-                                <p class="shop-checkout__method-label">Apple Pay</p>
-                                <div class="shop-checkout__buttons shop-checkout__buttons--applepay" id="shopApplePayButtons"></div>
-                                <p class="shop-checkout__hint" id="shopApplePayUnavailable" hidden>
-                                    Apple Pay non disponibile su questo browser. Usa i pulsanti qui sotto.
-                                </p>
-                            </div>
-
-                            <div class="shop-checkout__method">
-                                <p class="shop-checkout__method-label">PayPal o carta</p>
-                                <div class="shop-checkout__buttons" id="shopPaypalButtons"></div>
-                            </div>
-
-                            <p class="shop-checkout__hint shop-checkout__hint--card">
-                                Per pagare con carta tocca <strong>Debito o credito</strong> nei pulsanti PayPal.
-                            </p>
+                            <div class="shop-checkout__buttons" id="shopPaypalButtons"></div>
                         </div>
-                        <p class="shop-checkout__footnote">
-                            Pagamento sicuro con PayPal. Dopo la conferma contattaci su WhatsApp per il ritiro.
-                        </p>
-                        <button type="button" class="shop-checkout__back" id="shopCheckoutBack">Torna al modulo</button>
+                        <button type="button" class="email-submit-btn shop-checkout__back" id="shopCheckoutBack">Torna al modulo</button>
                     </div>
 
                     <button type="submit" class="email-submit-btn shop-submit" id="shopSubmitBtn">
@@ -220,16 +199,11 @@
             var pickupWhatsappBtn = document.getElementById('shopPickupWhatsapp');
             var paypalWrap = document.getElementById('shopPaypalWrap');
             var paypalButtonsEl = document.getElementById('shopPaypalButtons');
-            var applePayButtonsEl = document.getElementById('shopApplePayButtons');
-            var applePaySection = document.getElementById('shopApplePaySection');
-            var applePayUnavailableEl = document.getElementById('shopApplePayUnavailable');
             var checkoutAmountEl = document.getElementById('shopCheckoutAmount');
             var checkoutBackBtn = document.getElementById('shopCheckoutBack');
             var pendingCheckoutOrder = null;
             var paypalButtonsRendered = false;
             var paypalSdkPromise = null;
-            var paypalOrderActions = null;
-            var applePaySetupDone = false;
 
             function buildPickupWhatsappUrl(mode) {
                 var message = pickupWhatsappMessages[mode] || pickupWhatsappMessages['venue-payment'];
@@ -246,7 +220,7 @@
 
                 if (mode === 'online-pickup') {
                     return {
-                        note: 'Dopo l\'invio potrai pagare con Apple Pay, PayPal o carta. L\'ordine viene salvato solo se il pagamento va a buon fine. Per il ritiro contatta su WhatsApp al numero ' + pickupWhatsappLink + '.',
+                        note: 'Dopo l\'invio paghi con PayPal o carta. L\'ordine si registra solo dopo il pagamento. Per il ritiro: WhatsApp ' + pickupWhatsappLink + '.',
                         label: 'Continua al pagamento'
                     };
                 }
@@ -383,62 +357,9 @@
                 var price = getTesseraPriceEur();
 
                 if (checkoutAmountEl && price) {
-                    checkoutAmountEl.textContent = 'Totale · ' + formatPriceLabel(price);
+                    checkoutAmountEl.textContent = formatPriceLabel(price);
                 }
 
-            }
-
-            function showApplePayUnavailable() {
-                if (applePayUnavailableEl) {
-                    applePayUnavailableEl.hidden = false;
-                }
-
-                if (applePayButtonsEl) {
-                    applePayButtonsEl.innerHTML = '';
-                }
-            }
-
-            function hideApplePayUnavailable() {
-                if (applePayUnavailableEl) {
-                    applePayUnavailableEl.hidden = true;
-                }
-            }
-
-            function loadApplePaySdk() {
-                if (window.ApplePaySession) {
-                    return Promise.resolve();
-                }
-
-                return new Promise(function (resolve) {
-                    var script = document.createElement('script');
-                    script.src = 'https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js';
-                    script.async = true;
-                    script.onload = resolve;
-                    script.onerror = resolve;
-                    document.body.appendChild(script);
-                });
-            }
-
-            function handlePaidCapture(details, data) {
-                if (!details || details.status !== 'COMPLETED') {
-                    return Promise.reject(new Error('Il pagamento non risulta completato. Riprova o contattaci.'));
-                }
-
-                var capture = details.purchase_units &&
-                    details.purchase_units[0] &&
-                    details.purchase_units[0].payments &&
-                    details.purchase_units[0].payments.captures &&
-                    details.purchase_units[0].payments.captures[0];
-
-                var orderToSave = Object.assign({}, pendingCheckoutOrder, {
-                    paymentStatus: 'paid',
-                    paymentMethod: getPaymentMethodLabel(data),
-                    paypalOrderId: data && data.orderID ? data.orderID : '',
-                    paypalCaptureId: capture ? capture.id : '',
-                    paidAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                return finalizePaidOrder(orderToSave);
             }
 
             function setCheckoutProcessing(isProcessing) {
@@ -462,33 +383,29 @@
                     return Promise.reject(new Error('Configura SPOTTLY_PAYPAL_CLIENT_ID in shop-config.js per i pagamenti online.'));
                 }
 
-                paypalSdkPromise = Promise.all([
-                    loadApplePaySdk(),
-                    new Promise(function (resolve, reject) {
-                        var script = document.createElement('script');
-                        script.src = 'https://www.paypal.com/sdk/js?client-id=' +
-                            encodeURIComponent(clientId) +
-                            '&currency=EUR&intent=capture&components=buttons,applepay' +
-                            '&enable-funding=applepay,card' +
-                            '&disable-funding=venmo,paylater' +
-                            '&locale=it_IT';
-                        script.async = true;
-                        script.onload = function () {
-                            if (window.paypal) {
-                                resolve();
-                                return;
-                            }
-
-                            reject(new Error('PayPal non disponibile. Ricarica la pagina e riprova.'));
-                        };
-                        script.onerror = function () {
-                            reject(new Error(
-                                'PayPal non si è caricato. Disattiva blocchi pubblicità/VPN, ricarica la pagina (Cmd+Shift+R) o verifica il Client ID in SPOTTLY_SHOP_INLINE_CONFIG.'
-                            ));
-                        };
-                        document.body.appendChild(script);
-                    })
-                ]);
+                paypalSdkPromise = new Promise(function (resolve, reject) {
+                    var script = document.createElement('script');
+                    script.src = 'https://www.paypal.com/sdk/js?client-id=' +
+                        encodeURIComponent(clientId) +
+                        '&currency=EUR&intent=capture&components=buttons' +
+                        '&enable-funding=card' +
+                        '&disable-funding=applepay,venmo,paylater' +
+                        '&locale=it_IT';
+                    script.async = true;
+                    script.onload = function () {
+                        if (window.paypal) {
+                            resolve();
+                            return;
+                        }
+                        reject(new Error('PayPal non disponibile. Ricarica la pagina e riprova.'));
+                    };
+                    script.onerror = function () {
+                        reject(new Error(
+                            'PayPal non si è caricato. Disattiva blocchi pubblicità/VPN, ricarica la pagina (Cmd+Shift+R) o verifica il Client ID in SPOTTLY_SHOP_INLINE_CONFIG.'
+                        ));
+                    };
+                    document.body.appendChild(script);
+                });
 
                 return paypalSdkPromise;
             }
@@ -505,13 +422,6 @@
                     paypalButtonsEl.innerHTML = '';
                 }
 
-                if (applePayButtonsEl) {
-                    applePayButtonsEl.innerHTML = '';
-                }
-
-                hideApplePayUnavailable();
-                applePaySetupDone = false;
-                paypalOrderActions = null;
                 paypalButtonsRendered = false;
             }
 
@@ -578,138 +488,6 @@
                 };
             }
 
-            function setupNativeApplePay(price) {
-                if (applePaySetupDone || !applePayButtonsEl) {
-                    return Promise.resolve();
-                }
-
-                if (!window.paypal || !paypal.Applepay || !window.ApplePaySession) {
-                    showApplePayUnavailable();
-                    return Promise.resolve();
-                }
-
-                var applepay = paypal.Applepay();
-
-                return applepay.config().then(function (config) {
-                    if (!config || !config.isEligible) {
-                        showApplePayUnavailable();
-                        return;
-                    }
-
-                    hideApplePayUnavailable();
-                    applePayButtonsEl.innerHTML = '';
-                    applePaySetupDone = true;
-
-                    var applePayButton = document.createElement('apple-pay-button');
-                    applePayButton.setAttribute('buttonstyle', 'black');
-                    applePayButton.setAttribute('type', 'buy');
-                    applePayButton.setAttribute('locale', 'it-IT');
-                    applePayButtonsEl.appendChild(applePayButton);
-
-                    applePayButton.addEventListener('click', function () {
-                        if (!pendingCheckoutOrder || !paypalOrderActions) {
-                            showFormError('Sessione di pagamento scaduta. Ricompila il modulo e riprova.');
-                            return;
-                        }
-
-                        var paymentRequest = {
-                            countryCode: config.countryCode || 'IT',
-                            currencyCode: 'EUR',
-                            merchantCapabilities: config.merchantCapabilities,
-                            supportedNetworks: config.supportedNetworks,
-                            total: {
-                                label: 'Tessera Spottly',
-                                type: 'final',
-                                amount: price
-                            }
-                        };
-
-                        var session = new ApplePaySession(4, paymentRequest);
-
-                        session.onvalidatemerchant = function (event) {
-                            applepay.validateMerchant({
-                                validationUrl: event.validationURL,
-                                displayName: 'Spottly'
-                            }).then(function (result) {
-                                session.completeMerchantValidation(result.merchantSession);
-                            }).catch(function () {
-                                session.abort();
-                            });
-                        };
-
-                        session.onpaymentauthorized = function (event) {
-                            setSubmitting(true, 'Conferma pagamento...');
-                            setCheckoutProcessing(true);
-                            hideFormError();
-
-                            paypalOrderActions.order.create({
-                                purchase_units: [{
-                                    description: 'Tessera Spottly',
-                                    amount: {
-                                        currency_code: 'EUR',
-                                        value: price
-                                    }
-                                }]
-                            }).then(function (orderId) {
-                                var resolvedOrderId = typeof orderId === 'string' ? orderId : orderId.id;
-
-                                return applepay.confirmOrder({
-                                    orderId: resolvedOrderId,
-                                    token: event.payment.token,
-                                    billingContact: event.payment.billingContact
-                                });
-                            }).then(function () {
-                                return paypalOrderActions.order.capture();
-                            }).then(function (details) {
-                                session.completePayment(ApplePaySession.STATUS_SUCCESS);
-                                return handlePaidCapture(details, { orderID: details.id, paymentSource: 'applepay' });
-                            }).catch(function (error) {
-                                session.completePayment(ApplePaySession.STATUS_FAILURE);
-                                setSubmitting(false);
-                                setCheckoutProcessing(false);
-                                showFormError(error.message || 'Pagamento Apple Pay non riuscito. Riprova.');
-                            });
-                        };
-
-                        session.oncancel = function () {
-                            setSubmitting(false);
-                            setCheckoutProcessing(false);
-                        };
-
-                        session.begin();
-                    });
-                }).catch(function () {
-                    showApplePayUnavailable();
-                });
-            }
-
-            function tryRenderPaypalApplePayButton(handlers) {
-                if (!paypal.FUNDING || !paypal.FUNDING.APPLEPAY || !applePayButtonsEl || applePaySetupDone) {
-                    return Promise.resolve();
-                }
-
-                try {
-                    var applePayButtons = paypal.Buttons(Object.assign({
-                        fundingSource: paypal.FUNDING.APPLEPAY,
-                        style: {
-                            layout: 'vertical',
-                            color: 'black',
-                            label: 'pay',
-                            height: 48
-                        }
-                    }, handlers));
-
-                    if (!applePayButtons.isEligible()) {
-                        return Promise.resolve();
-                    }
-
-                    hideApplePayUnavailable();
-                    return applePayButtons.render('#shopApplePayButtons');
-                } catch (error) {
-                    return Promise.resolve();
-                }
-            }
-
             function renderPaypalButtons() {
                 if (paypalButtonsRendered || !window.paypal) {
                     return Promise.resolve();
@@ -729,35 +507,19 @@
 
                 var handlers = buildPaymentButtonHandlers(price);
 
-                if (applePaySection) {
-                    applePaySection.hidden = false;
-                }
-
-                hideApplePayUnavailable();
-
                 try {
                     var renderResult = paypal.Buttons(Object.assign({
-                        onInit: function (data, actions) {
-                            paypalOrderActions = actions;
-                        },
                         style: {
                             layout: 'vertical',
                             color: 'gold',
                             shape: 'rect',
                             label: 'pay',
-                            height: 48
+                            height: 50
                         }
                     }, handlers)).render('#shopPaypalButtons');
 
                     function afterMainButtons() {
                         paypalButtonsRendered = true;
-                        return setupNativeApplePay(price).then(function () {
-                            return tryRenderPaypalApplePayButton(handlers);
-                        }).then(function () {
-                            if (!applePaySetupDone && applePayButtonsEl && !applePayButtonsEl.children.length) {
-                                showApplePayUnavailable();
-                            }
-                        });
                     }
 
                     if (renderResult && typeof renderResult.then === 'function') {
@@ -768,6 +530,28 @@
                 } catch (error) {
                     return Promise.reject(error);
                 }
+            }
+
+            function handlePaidCapture(details, data) {
+                if (!details || details.status !== 'COMPLETED') {
+                    return Promise.reject(new Error('Il pagamento non risulta completato. Riprova o contattaci.'));
+                }
+
+                var capture = details.purchase_units &&
+                    details.purchase_units[0] &&
+                    details.purchase_units[0].payments &&
+                    details.purchase_units[0].payments.captures &&
+                    details.purchase_units[0].payments.captures[0];
+
+                var orderToSave = Object.assign({}, pendingCheckoutOrder, {
+                    paymentStatus: 'paid',
+                    paymentMethod: getPaymentMethodLabel(data),
+                    paypalOrderId: data && data.orderID ? data.orderID : '',
+                    paypalCaptureId: capture ? capture.id : '',
+                    paidAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                return finalizePaidOrder(orderToSave);
             }
 
             function saveShopOrder(order) {
