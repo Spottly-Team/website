@@ -9,3 +9,10 @@ window.SPOTTLY_FIREBASE_CONFIG = {
 };
 
 window.SPOTTLY_FIREBASE_COLLECTION = 'shop_orders';
+
+// PayPal: Client ID dell'app Live da https://developer.paypal.com/dashboard/
+// L'ordine online viene salvato su Firestore solo dopo capture riuscita.
+window.SPOTTLY_PAYPAL_CLIENT_ID = '';
+
+// Importo tessera (stesso valore configurato su PayPal)
+window.SPOTTLY_TESSERA_PRICE_EUR = '29.00';

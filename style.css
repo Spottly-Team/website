@@ -2460,6 +2460,17 @@ body {
     margin-top: 24px;
 }
 
+.shop-paypal {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #2a2a2a;
+}
+
+.shop-paypal__buttons {
+    margin-top: 16px;
+    min-height: 45px;
+}
+
 .shop-whatsapp-btn {
     display: inline-block;
     margin-top: 16px;

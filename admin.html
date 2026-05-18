@@ -595,7 +595,7 @@
         <section class="orders-section" id="onlineSection" hidden>
             <div class="orders-section__header">
                 <h2>Pagati online</h2>
-                <p class="orders-section__note">Richieste con acquisto online prima del redirect a PayPal.</p>
+                <p class="orders-section__note">Solo ordini con pagamento PayPal confermato (nessun salvataggio prima del pagamento).</p>
             </div>
             <div class="orders-list orders-list--cards" id="onlineOrdersCards" aria-live="polite"></div>
             <div class="orders-table-wrap orders-table-wrap--desktop">
@@ -860,10 +860,20 @@
                 element.hidden = hasResults;
             }
 
+            function isPaidOnlineOrder(order) {
+                if (order.purchaseMode !== ONLINE_MODE) {
+                    return false;
+                }
+
+                if (!order.paymentStatus) {
+                    return true;
+                }
+
+                return order.paymentStatus === 'paid';
+            }
+
             function renderOrders(orders) {
-                var onlineOrders = orders.filter(function (order) {
-                    return order.purchaseMode === ONLINE_MODE;
-                });
+                var onlineOrders = orders.filter(isPaidOnlineOrder);
                 var localOrders = orders.filter(function (order) {
                     return order.purchaseMode === LOCAL_MODE;
                 });
