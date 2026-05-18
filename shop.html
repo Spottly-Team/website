@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Acquista la tessera Spottly: sconti e vantaggi nei locali partner. Ritiro in sede o pagamento diretto nel locale.">
+    <title>Shop Tessera - Spottly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <meta name="theme-color" content="#000000">
+</head>
+<body class="shop-page">
+    <div class="top-header">
+        <div class="header-content">
+            <div class="logo"><a href="index.html" style="color: #ffffff; text-decoration: none;">Spottly</a></div>
+            <div class="header-buttons">
+                <a href="download.html" class="btn-primary" style="text-decoration: none; display: inline-block;">Scarica l'app</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="shop-content">
+        <div class="shop-layout">
+            <section class="shop-showcase" aria-labelledby="shop-title">
+                <div class="shop-showcase__frame">
+                    <img src="tessera-spottly.png" alt="Tessera Spottly" class="shop-showcase__image">
+                </div>
+                <p class="shop-showcase__caption">Tessera fisica · accesso ai vantaggi nei locali partner</p>
+                <a href="partner.html" class="shop-showcase__partners-link">Vedi partner</a>
+            </section>
+
+            <section class="shop-panel">
+                <header class="shop-panel__header">
+                    <p class="shop-eyebrow">Shop</p>
+                    <h1 id="shop-title">La tessera Spottly</h1>
+                    <p class="shop-lead">
+                        Porta con te sconti, promozioni e accessi riservati nei locali della community.
+                        Scegli come riceverla: acquisto online con ritiro in sede oppure prenotazione con pagamento diretto nel locale.
+                    </p>
+                </header>
+
+                <ul class="shop-benefits">
+                    <li>Sconti e vantaggi dedicati nei locali partner</li>
+                    <li>Tessera fisica in stile Spottly, bianca e minimal</li>
+                </ul>
+
+                <form class="shop-form" id="shopForm" novalidate>
+                    <fieldset class="shop-options">
+                        <legend class="shop-options__legend">Come vuoi procedere?</legend>
+                        <label class="shop-option">
+                            <input type="radio" name="purchaseMode" value="online-pickup" required>
+                            <span class="shop-option__card">
+                                <span class="shop-option__title">Acquista online</span>
+                                <span class="shop-option__text">Paghi ora e ritiri la tessera in sede. Per il ritiro contatta su WhatsApp.</span>
+                            </span>
+                        </label>
+                        <label class="shop-option">
+                            <input type="radio" name="purchaseMode" value="venue-payment">
+                            <span class="shop-option__card">
+                                <span class="shop-option__title">Prenota e paga nel locale</span>
+                                <span class="shop-option__text">Lasci i tuoi dati e saldi direttamente in sede al ritiro.</span>
+                            </span>
+                        </label>
+                    </fieldset>
+
+                    <div class="shop-form__fields">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Nome</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" autocomplete="given-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Cognome</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" autocomplete="family-name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" autocomplete="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Numero di telefono</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" autocomplete="tel" inputmode="tel" required>
+                        </div>
+                    </div>
+
+                    <p class="shop-form__note" id="shopModeNote" hidden></p>
+                    <a
+                        class="email-submit-btn shop-submit shop-whatsapp-btn"
+                        id="shopPickupWhatsapp"
+                        href="https://wa.me/393279835216"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        hidden
+                    >Contatta su WhatsApp per il ritiro</a>
+                    <p class="shop-form__error" id="shopFormError" hidden role="alert"></p>
+
+                    <button type="submit" class="email-submit-btn shop-submit" id="shopSubmitBtn">
+                        <span id="shopSubmitLabel">Invia richiesta</span>
+                    </button>
+
+                    <p class="shop-form__privacy">
+                        Inviando il modulo accetti il trattamento dei dati per gestire l'ordine o la prenotazione della tessera.
+                    </p>
+                </form>
+
+                <div class="shop-success" id="shopSuccess" hidden>
+                    <h2>Richiesta inviata</h2>
+                    <p id="shopSuccessMessage"></p>
+                    <button type="button" class="btn-secondary shop-success__reset" id="shopResetBtn">Invia un'altra richiesta</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-copyright">© 2026 Spottly</p>
+            <div class="footer-links">
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termini-condizioni.html">Termini e condizioni</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="shop-config.js"></script>
+    <script>
+        (function () {
+            var form = document.getElementById('shopForm');
+            var success = document.getElementById('shopSuccess');
+            var successMessage = document.getElementById('shopSuccessMessage');
+            var modeNote = document.getElementById('shopModeNote');
+            var formError = document.getElementById('shopFormError');
+            var submitBtn = document.getElementById('shopSubmitBtn');
+            var submitLabel = document.getElementById('shopSubmitLabel');
+            var modeInputs = form.querySelectorAll('input[name="purchaseMode"]');
+            var pickupWhatsappPhone = '393279835216';
+            var pickupWhatsappMessages = {
+                'online-pickup': 'Ciao, vorrei ritirare la mia tessera: l\'ho pagata online. Posso sapere quando venirla a ritirare?',
+                'venue-payment': 'Ciao, vorrei ritirare la mia tessera: la devo pagare. Posso sapere quando venirla a ritirare?'
+            };
+            var pickupWhatsappBtn = document.getElementById('shopPickupWhatsapp');
+            var paymentLink = 'https://www.paypal.com/ncp/payment/MFQSTWCWHSJ3E';
+
+            function buildPickupWhatsappUrl(mode) {
+                var message = pickupWhatsappMessages[mode] || pickupWhatsappMessages['venue-payment'];
+
+                return 'https://wa.me/' + pickupWhatsappPhone + '?text=' + encodeURIComponent(message);
+            }
+
+            function buildPickupWhatsappLink(mode) {
+                return '<a href="' + buildPickupWhatsappUrl(mode) + '" target="_blank" rel="noopener noreferrer">327 983 5216</a>';
+            }
+
+            function getModeCopy(mode) {
+                var pickupWhatsappLink = buildPickupWhatsappLink(mode);
+
+                if (mode === 'online-pickup') {
+                    return {
+                        note: 'Dopo l\'invio verrai reindirizzato alla pagina sicura di PayPal per completare il pagamento. Essendo ritiro in locale, per il ritiro contatta su WhatsApp al numero ' + pickupWhatsappLink + '.',
+                        label: 'Procedi al pagamento su PayPal'
+                    };
+                }
+
+                return {
+                    note: 'Pagherai la tessera direttamente in sede. Per il ritiro contatta su WhatsApp al numero ' + pickupWhatsappLink + '.',
+                    label: 'Prenota e paga nel locale'
+                };
+            }
+
+            function hideFormError() {
+                formError.hidden = true;
+                formError.textContent = '';
+            }
+
+            function showFormError(message) {
+                formError.textContent = message;
+                formError.hidden = false;
+            }
+
+            function showSuccessMessage(message, useHtml) {
+                form.hidden = true;
+                success.hidden = false;
+
+                if (useHtml) {
+                    successMessage.innerHTML = message;
+                } else {
+                    successMessage.textContent = message;
+                }
+
+                success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function updateMode() {
+                var selected = form.querySelector('input[name="purchaseMode"]:checked');
+                hideFormError();
+
+                if (!selected) {
+                    modeNote.hidden = true;
+                    pickupWhatsappBtn.hidden = true;
+                    submitLabel.textContent = 'Invia richiesta';
+                    return;
+                }
+
+                var copy = getModeCopy(selected.value);
+                modeNote.innerHTML = copy.note;
+                modeNote.hidden = false;
+                pickupWhatsappBtn.href = buildPickupWhatsappUrl(selected.value);
+                pickupWhatsappBtn.hidden = false;
+                submitLabel.textContent = copy.label;
+            }
+
+            function setSubmitting(isSubmitting, loadingLabel) {
+                submitBtn.disabled = isSubmitting;
+
+                if (isSubmitting) {
+                    submitLabel.textContent = loadingLabel;
+                    return;
+                }
+
+                updateMode();
+            }
+
+            function getFirebaseCollectionName() {
+                return (window.SPOTTLY_FIREBASE_COLLECTION || 'shop_orders').trim() || 'shop_orders';
+            }
+
+            function getFirestoreDb() {
+                var config = window.SPOTTLY_FIREBASE_CONFIG;
+
+                if (!config || !config.apiKey || !config.projectId) {
+                    return null;
+                }
+
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(config);
+                }
+
+                return firebase.firestore();
+            }
+
+            function buildOrderPayload(data) {
+                var mode = data.get('purchaseMode');
+
+                return {
+                    purchaseMode: mode === 'online-pickup'
+                        ? 'Acquisto online'
+                        : 'Prenota e paga nel locale',
+                    firstName: data.get('firstName'),
+                    lastName: data.get('lastName'),
+                    email: data.get('email'),
+                    phone: data.get('phone')
+                };
+            }
+
+            function saveShopOrder(order) {
+                var db = getFirestoreDb();
+
+                if (!db) {
+                    return Promise.reject(new Error('Configura Firebase in shop-config.js per salvare le richieste.'));
+                }
+
+                return db.collection(getFirebaseCollectionName()).add({
+                    purchaseMode: order.purchaseMode,
+                    firstName: order.firstName,
+                    lastName: order.lastName,
+                    email: order.email,
+                    phone: order.phone,
+                    delivered: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+
+            function startOnlineCheckout(order) {
+                setSubmitting(true, 'Salvataggio richiesta...');
+
+                saveShopOrder(order).then(function () {
+                    try {
+                        sessionStorage.setItem('spottly_shop_order', JSON.stringify(order));
+                    } catch (error) {
+                        // Ignore storage errors and continue to checkout.
+                    }
+
+                    setSubmitting(true, 'Reindirizzamento a PayPal...');
+                    window.location.href = paymentLink;
+                }).catch(function (error) {
+                    setSubmitting(false);
+                    showFormError(error.message || 'Non siamo riusciti a salvare la richiesta. Riprova tra poco.');
+                });
+            }
+
+            modeInputs.forEach(function (input) {
+                input.addEventListener('change', updateMode);
+            });
+
+            document.getElementById('shopResetBtn').addEventListener('click', function () {
+                form.reset();
+                form.hidden = false;
+                success.hidden = true;
+                modeNote.hidden = true;
+                pickupWhatsappBtn.hidden = true;
+                hideFormError();
+                submitBtn.disabled = false;
+                submitLabel.textContent = 'Invia richiesta';
+            });
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                hideFormError();
+
+                if (!form.reportValidity()) {
+                    return;
+                }
+
+                var data = new FormData(form);
+                var mode = data.get('purchaseMode');
+                var firstName = data.get('firstName');
+                var order = buildOrderPayload(data);
+
+                if (mode === 'online-pickup') {
+                    startOnlineCheckout(order);
+                    return;
+                }
+
+                setSubmitting(true, 'Invio richiesta...');
+
+                saveShopOrder(order).then(function () {
+                    setSubmitting(false);
+                    showSuccessMessage(
+                        'Grazie ' + firstName + '. La prenotazione è stata registrata. Essendo ritiro in locale, per il ritiro contatta su WhatsApp al numero ' + buildPickupWhatsappLink('venue-payment') + '.',
+                        true
+                    );
+                }).catch(function (error) {
+                    setSubmitting(false);
+                    showFormError(error.message || 'Non siamo riusciti a inviare la richiesta. Riprova tra poco.');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
