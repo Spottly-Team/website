@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Acquista la tessera Spottly: sconti e vantaggi nei locali partner. Ritiro in sede o pagamento diretto nel locale.">
+    <title>Shop Tessera - Spottly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <meta name="theme-color" content="#000000">
+</head>
+<body class="shop-page">
+    <div class="top-header">
+        <div class="header-content">
+            <div class="logo"><a href="index.html" style="color: #ffffff; text-decoration: none;">Spottly</a></div>
+            <div class="header-buttons">
+                <a href="download.html" class="btn-primary" style="text-decoration: none; display: inline-block;">Scarica l'app</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="shop-content">
+        <div class="shop-layout">
+            <section class="shop-showcase" aria-labelledby="shop-title">
+                <div class="shop-showcase__frame">
+                    <img src="tessera-spottly.png" alt="Tessera Spottly" class="shop-showcase__image">
+                </div>
+                <p class="shop-showcase__caption">Tessera fisica · accesso ai vantaggi nei locali partner</p>
+                <a href="partner.html" class="shop-showcase__partners-link">Vedi partner</a>
+            </section>
+
+            <section class="shop-panel">
+                <header class="shop-panel__header">
+                    <p class="shop-eyebrow">Shop</p>
+                    <h1 id="shop-title">La Spottly card</h1>
+                    <p class="shop-lead">
+                        Porta con te sconti, promozioni e accessi riservati nei locali della community.
+                        Scegli come riceverla: acquisto online con ritiro in sede oppure prenotazione con pagamento diretto nel locale.
+                    </p>
+                </header>
+
+                <ul class="shop-benefits">
+                    <li>Sconti e vantaggi dedicati nei locali partner</li>
+                    <li>Tessera fisica in stile Spottly, bianca e minimal</li>
+                </ul>
+
+                <form class="shop-form" id="shopForm" novalidate>
+                    <fieldset class="shop-options">
+                        <legend class="shop-options__legend">Come vuoi procedere?</legend>
+                        <label class="shop-option">
+                            <input type="radio" name="purchaseMode" value="online-pickup" required>
+                            <span class="shop-option__card">
+                                <span class="shop-option__title">Acquista online</span>
+                                <span class="shop-option__text">Paghi ora e ritiri la tessera in sede. Per il ritiro contatta su WhatsApp.</span>
+                            </span>
+                        </label>
+                        <label class="shop-option">
+                            <input type="radio" name="purchaseMode" value="venue-payment">
+                            <span class="shop-option__card">
+                                <span class="shop-option__title">Prenota e paga nel locale</span>
+                                <span class="shop-option__text">Lasci i tuoi dati e saldi direttamente in sede al ritiro.</span>
+                            </span>
+                        </label>
+                    </fieldset>
+
+                    <div class="shop-form__fields">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Nome</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" autocomplete="given-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Cognome</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" autocomplete="family-name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" autocomplete="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Numero di telefono</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" autocomplete="tel" inputmode="tel" required>
+                        </div>
+                    </div>
+
+                    <p class="shop-form__note" id="shopModeNote" hidden></p>
+                    <a
+                        class="email-submit-btn shop-submit shop-whatsapp-btn"
+                        id="shopPickupWhatsapp"
+                        href="https://wa.me/393279835216"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        hidden
+                    >Contatta su WhatsApp per il ritiro</a>
+                    <p class="shop-form__error" id="shopFormError" hidden role="alert"></p>
+
+                    <div class="shop-checkout" id="shopPaypalWrap" hidden aria-labelledby="shopCheckoutTitle">
+                        <div class="shop-checkout__header">
+                            <p class="shop-checkout__eyebrow">Pagamento sicuro</p>
+                            <h2 class="shop-checkout__title" id="shopCheckoutTitle">Completa l'acquisto</h2>
+                            <p class="shop-checkout__amount" id="shopCheckoutAmount">€14,99</p>
+                        </div>
+                        <div class="shop-checkout__pay-surface">
+                            <div class="shop-checkout__buttons" id="shopPaypalButtons"></div>
+                        </div>
+                        <button type="button" class="email-submit-btn shop-checkout__back" id="shopCheckoutBack">Torna al modulo</button>
+                    </div>
+
+                    <button type="submit" class="email-submit-btn shop-submit" id="shopSubmitBtn">
+                        <span id="shopSubmitLabel">Invia richiesta</span>
+                    </button>
+
+                    <p class="shop-form__privacy">
+                        Inviando il modulo accetti il trattamento dei dati per gestire l'ordine o la prenotazione della tessera.
+                    </p>
+                </form>
+
+                <div class="shop-success" id="shopSuccess" hidden>
+                    <h2>Richiesta inviata</h2>
+                    <p id="shopSuccessMessage"></p>
+                    <button type="button" class="btn-secondary shop-success__reset" id="shopResetBtn">Invia un'altra richiesta</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-copyright">© 2026 Spottly</p>
+            <div class="footer-links">
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termini-condizioni.html">Termini e condizioni</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <!-- Config integrata: funziona anche se shop-config.js non è sul server. Modifica solo qui sotto. -->
+    <script>
+        window.SPOTTLY_SHOP_INLINE_CONFIG = {
+            paypalClientId: 'ASaJ2EbCjAWDZoF8xzNFKEAe-8aemQ5lpKy9MY33uE3zc-d_XkbZJPqFPBhn4R5Wm8f5avHrhB2NtSX7',
+            tesseraPriceEur: '14.99',
+            firebase: {
+                apiKey: 'AIzaSyDibLwVlbGIBs5LYymKNrS-Z7m0t7Ht7vU',
+                authDomain: 'sixsevennnn-dk.firebaseapp.com',
+                projectId: 'sixsevennnn-dk',
+                storageBucket: 'sixsevennnn-dk.firebasestorage.app',
+                messagingSenderId: '159481500389',
+                appId: '1:159481500389:web:9aa45e611d2178c7e43a0c',
+                measurementId: 'G-26X78QB84G'
+            },
+            firebaseCollection: 'shop_orders'
+        };
+    </script>
+    <script src="shop-config.js?v=2"></script>
+    <script>
+        (function () {
+            var inline = window.SPOTTLY_SHOP_INLINE_CONFIG || {};
+
+            if (!String(window.SPOTTLY_PAYPAL_CLIENT_ID || '').trim() && inline.paypalClientId) {
+                window.SPOTTLY_PAYPAL_CLIENT_ID = inline.paypalClientId;
+            }
+
+            if (!String(window.SPOTTLY_TESSERA_PRICE_EUR || '').trim() && inline.tesseraPriceEur) {
+                window.SPOTTLY_TESSERA_PRICE_EUR = inline.tesseraPriceEur;
+            }
+
+            if ((!window.SPOTTLY_FIREBASE_CONFIG || !window.SPOTTLY_FIREBASE_CONFIG.apiKey) && inline.firebase) {
+                window.SPOTTLY_FIREBASE_CONFIG = inline.firebase;
+            }
+
+            if (!String(window.SPOTTLY_FIREBASE_COLLECTION || '').trim() && inline.firebaseCollection) {
+                window.SPOTTLY_FIREBASE_COLLECTION = inline.firebaseCollection;
+            }
+        })();
+    </script>
+    <script>
+        (function () {
+            var form = document.getElementById('shopForm');
+            var success = document.getElementById('shopSuccess');
+            var successMessage = document.getElementById('shopSuccessMessage');
+            var modeNote = document.getElementById('shopModeNote');
+            var formError = document.getElementById('shopFormError');
+            var submitBtn = document.getElementById('shopSubmitBtn');
+            var submitLabel = document.getElementById('shopSubmitLabel');
+            var modeInputs = form.querySelectorAll('input[name="purchaseMode"]');
+            var pickupWhatsappPhone = '393279835216';
+            var pickupWhatsappMessages = {
+                'online-pickup': 'Ciao, vorrei ritirare la mia tessera: l\'ho pagata online. Posso sapere quando venirla a ritirare?',
+                'venue-payment': 'Ciao, vorrei ritirare la mia tessera: la devo pagare. Posso sapere quando venirla a ritirare?'
+            };
+            var pickupWhatsappBtn = document.getElementById('shopPickupWhatsapp');
+            var paypalWrap = document.getElementById('shopPaypalWrap');
+            var paypalButtonsEl = document.getElementById('shopPaypalButtons');
+            var checkoutAmountEl = document.getElementById('shopCheckoutAmount');
+            var checkoutBackBtn = document.getElementById('shopCheckoutBack');
+            var pendingCheckoutOrder = null;
+            var paypalButtonsRendered = false;
+            var paypalSdkPromise = null;
+
+            function buildPickupWhatsappUrl(mode) {
+                var message = pickupWhatsappMessages[mode] || pickupWhatsappMessages['venue-payment'];
+
+                return 'https://wa.me/' + pickupWhatsappPhone + '?text=' + encodeURIComponent(message);
+            }
+
+            function buildPickupWhatsappLink(mode) {
+                return '<a href="' + buildPickupWhatsappUrl(mode) + '" target="_blank" rel="noopener noreferrer">327 983 5216</a>';
+            }
+
+            function getModeCopy(mode) {
+                var pickupWhatsappLink = buildPickupWhatsappLink(mode);
+
+                if (mode === 'online-pickup') {
+                    return {
+                        note: 'Dopo l\'invio paghi con PayPal o carta. L\'ordine si registra solo dopo il pagamento. Per il ritiro: WhatsApp ' + pickupWhatsappLink + '.',
+                        label: 'Continua al pagamento'
+                    };
+                }
+
+                return {
+                    note: 'Pagherai la tessera direttamente in sede. Per il ritiro contatta su WhatsApp al numero ' + pickupWhatsappLink + '.',
+                    label: 'Prenota e paga nel locale'
+                };
+            }
+
+            function hideFormError() {
+                formError.hidden = true;
+                formError.textContent = '';
+            }
+
+            function showFormError(message) {
+                formError.textContent = message;
+                formError.hidden = false;
+            }
+
+            function showSuccessMessage(message, useHtml) {
+                form.hidden = true;
+                success.hidden = false;
+
+                if (useHtml) {
+                    successMessage.innerHTML = message;
+                } else {
+                    successMessage.textContent = message;
+                }
+
+                success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function updateMode() {
+                var selected = form.querySelector('input[name="purchaseMode"]:checked');
+                hideFormError();
+                hidePaypalCheckout();
+                pendingCheckoutOrder = null;
+
+                if (!selected) {
+                    modeNote.hidden = true;
+                    pickupWhatsappBtn.hidden = true;
+                    submitLabel.textContent = 'Invia richiesta';
+                    return;
+                }
+
+                var copy = getModeCopy(selected.value);
+                modeNote.innerHTML = copy.note;
+                modeNote.hidden = false;
+                pickupWhatsappBtn.href = buildPickupWhatsappUrl(selected.value);
+                pickupWhatsappBtn.hidden = false;
+                submitLabel.textContent = copy.label;
+            }
+
+            function isCheckoutOpen() {
+                return Boolean(pendingCheckoutOrder && paypalWrap && !paypalWrap.hidden);
+            }
+
+            function setSubmitting(isSubmitting, loadingLabel) {
+                submitBtn.disabled = isSubmitting;
+
+                if (isSubmitting) {
+                    submitLabel.textContent = loadingLabel;
+                    return;
+                }
+
+                // Checkout aperto: non chiamare updateMode() o il pannello pagamento sparisce.
+                if (isCheckoutOpen()) {
+                    submitBtn.hidden = true;
+                    return;
+                }
+
+                updateMode();
+            }
+
+            function getFirebaseCollectionName() {
+                return (window.SPOTTLY_FIREBASE_COLLECTION || 'shop_orders').trim() || 'shop_orders';
+            }
+
+            function getFirestoreDb() {
+                var config = window.SPOTTLY_FIREBASE_CONFIG;
+
+                if (!config || !config.apiKey || !config.projectId) {
+                    return null;
+                }
+
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(config);
+                }
+
+                return firebase.firestore();
+            }
+
+            function buildOrderPayload(data) {
+                var mode = data.get('purchaseMode');
+
+                return {
+                    purchaseMode: mode === 'online-pickup'
+                        ? 'Acquisto online'
+                        : 'Prenota e paga nel locale',
+                    firstName: data.get('firstName'),
+                    lastName: data.get('lastName'),
+                    email: data.get('email'),
+                    phone: data.get('phone')
+                };
+            }
+
+            function getPaypalClientId() {
+                return String(window.SPOTTLY_PAYPAL_CLIENT_ID || '').trim();
+            }
+
+            function getTesseraPriceEur() {
+                var price = String(window.SPOTTLY_TESSERA_PRICE_EUR || '').trim().replace(',', '.');
+
+                if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+                    return null;
+                }
+
+                return price;
+            }
+
+            function formatPriceLabel(price) {
+                var parts = price.split('.');
+                var decimals = parts[1] || '00';
+
+                if (decimals.length === 1) {
+                    decimals += '0';
+                }
+
+                return '€' + parts[0] + ',' + decimals;
+            }
+
+            function updateCheckoutAmountDisplay() {
+                var price = getTesseraPriceEur();
+
+                if (checkoutAmountEl && price) {
+                    checkoutAmountEl.textContent = formatPriceLabel(price);
+                }
+
+            }
+
+            function setCheckoutProcessing(isProcessing) {
+                if (paypalWrap) {
+                    paypalWrap.classList.toggle('is-processing', isProcessing);
+                }
+            }
+
+            function loadPaypalSdk() {
+                if (window.paypal) {
+                    return Promise.resolve();
+                }
+
+                if (paypalSdkPromise) {
+                    return paypalSdkPromise;
+                }
+
+                var clientId = getPaypalClientId();
+
+                if (!clientId) {
+                    return Promise.reject(new Error('Configura SPOTTLY_PAYPAL_CLIENT_ID in shop-config.js per i pagamenti online.'));
+                }
+
+                paypalSdkPromise = new Promise(function (resolve, reject) {
+                    var script = document.createElement('script');
+                    script.src = 'https://www.paypal.com/sdk/js?client-id=' +
+                        encodeURIComponent(clientId) +
+                        '&currency=EUR&intent=capture&components=buttons' +
+                        '&enable-funding=card' +
+                        '&disable-funding=applepay,venmo,paylater' +
+                        '&locale=it_IT';
+                    script.async = true;
+                    script.onload = function () {
+                        if (window.paypal) {
+                            resolve();
+                            return;
+                        }
+                        reject(new Error('PayPal non disponibile. Ricarica la pagina e riprova.'));
+                    };
+                    script.onerror = function () {
+                        reject(new Error(
+                            'PayPal non si è caricato. Disattiva blocchi pubblicità/VPN, ricarica la pagina (Cmd+Shift+R) o verifica il Client ID in SPOTTLY_SHOP_INLINE_CONFIG.'
+                        ));
+                    };
+                    document.body.appendChild(script);
+                });
+
+                return paypalSdkPromise;
+            }
+
+            function hidePaypalCheckout() {
+                if (paypalWrap) {
+                    paypalWrap.hidden = true;
+                }
+
+                submitBtn.hidden = false;
+                setCheckoutProcessing(false);
+
+                if (paypalButtonsEl) {
+                    paypalButtonsEl.innerHTML = '';
+                }
+
+                paypalButtonsRendered = false;
+            }
+
+            function finalizePaidOrder(orderToSave) {
+                return saveShopOrder(orderToSave).then(function () {
+                    pendingCheckoutOrder = null;
+                    hidePaypalCheckout();
+                    setSubmitting(false);
+                    showSuccessMessage(
+                        'Grazie ' + orderToSave.firstName + '. Il pagamento è andato a buon fine e la richiesta è stata registrata. Per il ritiro contatta su WhatsApp al numero ' + buildPickupWhatsappLink('online-pickup') + '.',
+                        true
+                    );
+                });
+            }
+
+            function getPaymentMethodLabel(data) {
+                if (data && data.paymentSource) {
+                    return String(data.paymentSource);
+                }
+
+                return 'paypal';
+            }
+
+            function buildPaymentButtonHandlers(price) {
+                return {
+                    createOrder: function (data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                description: 'Tessera Spottly',
+                                amount: {
+                                    currency_code: 'EUR',
+                                    value: price
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function (data, actions) {
+                        if (!pendingCheckoutOrder) {
+                            return Promise.reject(new Error('Sessione di pagamento scaduta. Ricompila il modulo e riprova.'));
+                        }
+
+                        setSubmitting(true, 'Conferma pagamento...');
+                        setCheckoutProcessing(true);
+                        hideFormError();
+
+                        return actions.order.capture().then(function (details) {
+                            return handlePaidCapture(details, data);
+                        }).catch(function (error) {
+                            setSubmitting(false);
+                            setCheckoutProcessing(false);
+                            showFormError(error.message || 'Non siamo riusciti a confermare il pagamento. Riprova.');
+                        });
+                    },
+                    onCancel: function () {
+                        setSubmitting(false);
+                        setCheckoutProcessing(false);
+                        showFormError('Pagamento annullato. Puoi riprovare quando vuoi.');
+                    },
+                    onError: function () {
+                        setSubmitting(false);
+                        setCheckoutProcessing(false);
+                        showFormError('Si è verificato un errore con il pagamento. Riprova tra poco.');
+                    }
+                };
+            }
+
+            function renderPaypalButtons() {
+                if (paypalButtonsRendered || !window.paypal) {
+                    return Promise.resolve();
+                }
+
+                var price = getTesseraPriceEur();
+
+                if (!price) {
+                    return Promise.reject(new Error('Configura SPOTTLY_TESSERA_PRICE_EUR in shop-config.js (es. 14.99).'));
+                }
+
+                if (!paypalButtonsEl) {
+                    return Promise.reject(new Error('Area pagamento non trovata. Ricarica la pagina.'));
+                }
+
+                updateCheckoutAmountDisplay();
+
+                var handlers = buildPaymentButtonHandlers(price);
+
+                try {
+                    var renderResult = paypal.Buttons(Object.assign({
+                        style: {
+                            layout: 'vertical',
+                            color: 'gold',
+                            shape: 'rect',
+                            label: 'pay',
+                            height: 50
+                        }
+                    }, handlers)).render('#shopPaypalButtons');
+
+                    function afterMainButtons() {
+                        paypalButtonsRendered = true;
+                    }
+
+                    if (renderResult && typeof renderResult.then === 'function') {
+                        return renderResult.then(afterMainButtons);
+                    }
+
+                    return afterMainButtons();
+                } catch (error) {
+                    return Promise.reject(error);
+                }
+            }
+
+            function handlePaidCapture(details, data) {
+                if (!details || details.status !== 'COMPLETED') {
+                    return Promise.reject(new Error('Il pagamento non risulta completato. Riprova o contattaci.'));
+                }
+
+                var capture = details.purchase_units &&
+                    details.purchase_units[0] &&
+                    details.purchase_units[0].payments &&
+                    details.purchase_units[0].payments.captures &&
+                    details.purchase_units[0].payments.captures[0];
+
+                var orderToSave = Object.assign({}, pendingCheckoutOrder, {
+                    paymentStatus: 'paid',
+                    paymentMethod: getPaymentMethodLabel(data),
+                    paypalOrderId: data && data.orderID ? data.orderID : '',
+                    paypalCaptureId: capture ? capture.id : '',
+                    paidAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                return finalizePaidOrder(orderToSave);
+            }
+
+            function saveShopOrder(order) {
+                var db = getFirestoreDb();
+
+                if (!db) {
+                    return Promise.reject(new Error('Configura Firebase in shop-config.js per salvare le richieste.'));
+                }
+
+                var payload = {
+                    purchaseMode: order.purchaseMode,
+                    firstName: order.firstName,
+                    lastName: order.lastName,
+                    email: order.email,
+                    phone: order.phone,
+                    paymentStatus: order.paymentStatus || 'unknown',
+                    delivered: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                if (order.paypalOrderId) {
+                    payload.paypalOrderId = order.paypalOrderId;
+                }
+
+                if (order.paypalCaptureId) {
+                    payload.paypalCaptureId = order.paypalCaptureId;
+                }
+
+                if (order.paymentMethod) {
+                    payload.paymentMethod = order.paymentMethod;
+                }
+
+                if (order.paidAt) {
+                    payload.paidAt = order.paidAt;
+                }
+
+                return db.collection(getFirebaseCollectionName()).add(payload);
+            }
+
+            function startOnlineCheckout(order) {
+                var price = getTesseraPriceEur();
+
+                if (!getPaypalClientId()) {
+                    showFormError(
+                        'PayPal non configurato. Apri shop.html, cerca SPOTTLY_SHOP_INLINE_CONFIG e imposta paypalClientId con il Client ID da PayPal Developer.'
+                    );
+                    return;
+                }
+
+                if (!price) {
+                    showFormError('Prezzo tessera non configurato: imposta SPOTTLY_TESSERA_PRICE_EUR in shop-config.js.');
+                    return;
+                }
+
+                pendingCheckoutOrder = order;
+                setSubmitting(true, 'Caricamento PayPal...');
+                hideFormError();
+
+                updateCheckoutAmountDisplay();
+
+                loadPaypalSdk().then(function () {
+                    submitBtn.hidden = true;
+                    modeNote.hidden = true;
+                    pickupWhatsappBtn.hidden = true;
+                    paypalWrap.hidden = false;
+                    return renderPaypalButtons();
+                }).then(function () {
+                    setSubmitting(false);
+                    paypalWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }).catch(function (error) {
+                    pendingCheckoutOrder = null;
+                    hidePaypalCheckout();
+                    setSubmitting(false);
+                    showFormError(error.message || 'PayPal non disponibile. Riprova tra poco.');
+                });
+            }
+
+            updateCheckoutAmountDisplay();
+
+            modeInputs.forEach(function (input) {
+                input.addEventListener('change', updateMode);
+            });
+
+            if (checkoutBackBtn) {
+                checkoutBackBtn.addEventListener('click', function () {
+                    hidePaypalCheckout();
+                    pendingCheckoutOrder = null;
+                    hideFormError();
+                    setSubmitting(false);
+                    updateMode();
+                });
+            }
+
+            document.getElementById('shopResetBtn').addEventListener('click', function () {
+                form.reset();
+                form.hidden = false;
+                success.hidden = true;
+                modeNote.hidden = true;
+                pickupWhatsappBtn.hidden = true;
+                hidePaypalCheckout();
+                pendingCheckoutOrder = null;
+                hideFormError();
+                submitBtn.disabled = false;
+                submitLabel.textContent = 'Invia richiesta';
+            });
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                hideFormError();
+
+                if (!form.reportValidity()) {
+                    return;
+                }
+
+                var data = new FormData(form);
+                var mode = data.get('purchaseMode');
+                var firstName = data.get('firstName');
+                var order = buildOrderPayload(data);
+
+                if (mode === 'online-pickup') {
+                    startOnlineCheckout(order);
+                    return;
+                }
+
+                setSubmitting(true, 'Invio richiesta...');
+
+                order.paymentStatus = 'pay_at_venue';
+
+                saveShopOrder(order).then(function () {
+                    setSubmitting(false);
+                    showSuccessMessage(
+                        'Grazie ' + firstName + '. La prenotazione è stata registrata. Essendo ritiro in locale, per il ritiro contatta su WhatsApp al numero ' + buildPickupWhatsappLink('venue-payment') + '.',
+                        true
+                    );
+                }).catch(function (error) {
+                    setSubmitting(false);
+                    showFormError(error.message || 'Non siamo riusciti a inviare la richiesta. Riprova tra poco.');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

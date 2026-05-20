@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Scopri i locali partner Spottly: loghi, indirizzi, Instagram e indicazioni su Google Maps.">
+    <title>Locali partner - Spottly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <meta name="theme-color" content="#000000">
+</head>
+<body class="partners-page">
+    <div class="top-header">
+        <div class="header-content">
+            <div class="logo"><a href="index.html" style="color: #ffffff; text-decoration: none;">Spottly</a></div>
+            <div class="header-buttons">
+                <a href="download.html" class="btn-primary" style="text-decoration: none; display: inline-block;">Scarica l'app</a>
+                <a href="shop.html" class="btn-secondary" style="text-decoration: none; display: inline-block;">Shop tessera</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="partners-content">
+        <div class="partners-wrapper">
+            <header class="partners-header">
+                <p class="partners-eyebrow">Community</p>
+                <h1>Locali partner</h1>
+                <p class="partners-lead">
+                    Sconti e vantaggi con la tessera Spottly. Apri Instagram del locale o tocca l'indirizzo per le indicazioni su Google Maps.
+                </p>
+            </header>
+
+            <ul class="partners-list" id="partnersList" aria-live="polite"></ul>
+            <p class="partners-empty" id="partnersEmpty" hidden>Nessun locale partner al momento.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-copyright">© 2026 Spottly</p>
+            <div class="footer-links">
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termini-condizioni.html">Termini e condizioni</a>
+                <a href="shop.html">Shop tessera</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="partners-config.js"></script>
+    <script>
+        (function () {
+            var list = document.getElementById('partnersList');
+            var empty = document.getElementById('partnersEmpty');
+            var partners = Array.isArray(window.SPOTTLY_PARTNERS) ? window.SPOTTLY_PARTNERS : [];
+
+            function escapeHtml(value) {
+                return String(value)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function buildMapsUrl(partner) {
+                if (partner.maps) {
+                    return partner.maps;
+                }
+
+                if (partner.address) {
+                    return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(partner.address);
+                }
+
+                return '';
+            }
+
+            function normalizeInstagramUrl(value) {
+                var raw = String(value || '').trim();
+
+                if (!raw) {
+                    return '';
+                }
+
+                if (/^https?:\/\//i.test(raw)) {
+                    return raw;
+                }
+
+                return 'https://www.instagram.com/' + raw.replace(/^@/, '');
+            }
+
+            function renderPartner(partner) {
+                var name = String(partner.name || 'Locale partner').trim();
+                var address = String(partner.address || '').trim();
+                var instagram = normalizeInstagramUrl(partner.instagram);
+                var mapsUrl = buildMapsUrl(partner);
+                var logo = String(partner.logo || '').trim();
+
+                var logoMarkup = logo
+                    ? '<img src="' + escapeHtml(logo) + '" alt="" class="partner-card__logo-image" loading="lazy" decoding="async">'
+                    : '<span class="partner-card__logo-placeholder" aria-hidden="true"></span>';
+
+                var addressMarkup = address && mapsUrl
+                    ? '<a class="partner-card__address" href="' + escapeHtml(mapsUrl) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(address) + '</a>'
+                    : '<p class="partner-card__address partner-card__address--static">' + escapeHtml(address || 'Indirizzo in arrivo') + '</p>';
+
+                var instagramMarkup = instagram
+                    ? '<a class="partner-card__instagram" href="' + escapeHtml(instagram) + '" target="_blank" rel="noopener noreferrer" aria-label="Instagram di ' + escapeHtml(name) + '">' +
+                        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+                            '<path fill="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm10 2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-5 3.5A4.5 4.5 0 1 1 7.5 13 4.5 4.5 0 0 1 12 8.5zm0 2A2.5 2.5 0 1 0 14.5 13 2.5 2.5 0 0 0 12 10.5zM17.25 6.75a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/>' +
+                        '</svg>' +
+                        '<span>Instagram</span>' +
+                      '</a>'
+                    : '';
+
+                return '<li class="partner-card">' +
+                    '<div class="partner-card__logo">' + logoMarkup + '</div>' +
+                    '<div class="partner-card__body">' +
+                        '<h2 class="partner-card__name">' + escapeHtml(name) + '</h2>' +
+                        addressMarkup +
+                    '</div>' +
+                    (instagramMarkup ? '<div class="partner-card__actions">' + instagramMarkup + '</div>' : '') +
+                '</li>';
+            }
+
+            if (!partners.length) {
+                empty.hidden = false;
+                return;
+            }
+
+            list.innerHTML = partners.map(renderPartner).join('');
+        })();
+    </script>
+</body>
+</html>
