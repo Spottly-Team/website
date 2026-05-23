@@ -190,6 +190,9 @@
   </script>
   <script>
     (function () {
+      var phoneNumber = document.getElementById('phone');
+      var firstName_id = document.getElementById('firstName');
+      var lastName_id = document.getElementById('lastName');
       var form = document.getElementById('shopForm');
       var success = document.getElementById('shopSuccess');
       var successMessage = document.getElementById('shopSuccessMessage');
@@ -211,6 +214,30 @@
       var pendingCheckoutOrder = null;
       var paypalButtonsRendered = false;
       var paypalSdkPromise = null;
+
+
+      function isNumber(value) {
+        if (isNaN(value)) {
+          return false;
+        }
+        if (!isNaN(value)) {
+          return true;
+        }
+      }
+
+      function isValidName(value) {
+        const trimmed = value.trim();
+        if (trimmed.length < 2) return false;
+        if (/[^a-zA-ZÀ-ÿ\s\-']/.test(trimmed)) return false;  // caratteri non validi
+        if (/[-'\s]{2,}/.test(trimmed)) return false;           // caratteri speciali consecutivi
+        if (/^[-'\s]/.test(trimmed)) return false;              // inizia con carattere speciale
+        if (/[-'\s]$/.test(trimmed)) return false;              // finisce con carattere speciale
+        return true;
+      }
+
+      function isValidItalianMobile(value) {
+        return /^(\+39)?3\d{8,9}$/.test(value.replace(/\s/g, ''));
+      }
 
       function buildPickupWhatsappUrl(mode) {
         var message = pickupWhatsappMessages[mode] || pickupWhatsappMessages['venue-payment'];
@@ -672,10 +699,24 @@
         if (!form.reportValidity()) {
           return;
         }
-
         var data = new FormData(form);
+
+        var phone = data.get('phone');
+        if (!isValidItalianMobile(phone)) {
+          showFormError('Inserisci un numero di cellulare italiano valido (es. 333 1234567).');
+          phoneNumber.value = '';
+          return;
+        }
+
         var mode = data.get('purchaseMode');
         var firstName = data.get('firstName');
+        var lastName = data.get('lastName');
+        if (!isValidName(firstName) || !isValidName(lastName)) {
+          showFormError('Inserisci un nome e cognome valido. (es. Mario Rossi)');
+          firstName_id.value = '';
+          lastName_id.value = '';
+          return;
+        }
         var order = buildOrderPayload(data);
 
         if (mode === 'online-pickup') {
