@@ -12,15 +12,13 @@ window.SPOTTLY_PARTNERS = [
         instagram: '_insomniaparty_'
     },
     {
-        name: 'Caffè Spottly',
-        logo: 'partner-logos/caffe-spottly.png',
-        address: 'Corso Garibaldi 45, Milano',
-        instagram: 'https://www.instagram.com/caffespottly'
-    },
-    {
-        name: 'Locale Partner',
-        logo: '',
-        address: 'Piazza Duomo 1, Milano',
-        instagram: 'https://www.instagram.com/app.spottly'
+        name: 'Da Giulia Art caffè',
+        logo: 'loghi-partner/da-giulia-art-caffe.png',
+        address: 'Viale Teosa 5A, 25032 Chiari (BS)',
+        instagram: 'https://www.instagram.com/dagiulia_artcaffe?igsh=d3k0aW8wbjJjZzg=',
+        promotions: [
+            'Per ogni 2x1 che acquisti hai 1 shot in omaggio',
+            'Tutti i sabato: per ogni smoothie (alcolico o analcolico) che acquisti ne hai un altro in omaggio'
+        ]
     }
 ];

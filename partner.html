@@ -97,6 +97,7 @@
                 var instagram = normalizeInstagramUrl(partner.instagram);
                 var mapsUrl = buildMapsUrl(partner);
                 var logo = String(partner.logo || '').trim();
+                var promotions = Array.isArray(partner.promotions) ? partner.promotions.filter(Boolean) : [];
 
                 var logoMarkup = logo
                     ? '<img src="' + escapeHtml(logo) + '" alt="" class="partner-card__logo-image" loading="lazy" decoding="async">'
@@ -105,6 +106,17 @@
                 var addressMarkup = address && mapsUrl
                     ? '<a class="partner-card__address" href="' + escapeHtml(mapsUrl) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(address) + '</a>'
                     : '<p class="partner-card__address partner-card__address--static">' + escapeHtml(address || 'Indirizzo in arrivo') + '</p>';
+
+                var promotionsMarkup = promotions.length
+                    ? '<div class="partner-card__promotions" aria-label="Promozioni attive">' +
+                        '<p class="partner-card__promotions-title">Promozioni attive</p>' +
+                        '<ul class="partner-card__promotions-list">' +
+                          promotions.map(function (promo) {
+                              return '<li>' + escapeHtml(String(promo).trim()) + '</li>';
+                          }).join('') +
+                        '</ul>' +
+                      '</div>'
+                    : '';
 
                 var instagramMarkup = instagram
                     ? '<a class="partner-card__instagram" href="' + escapeHtml(instagram) + '" target="_blank" rel="noopener noreferrer" aria-label="Instagram di ' + escapeHtml(name) + '">' +
@@ -120,6 +132,7 @@
                     '<div class="partner-card__body">' +
                         '<h2 class="partner-card__name">' + escapeHtml(name) + '</h2>' +
                         addressMarkup +
+                        promotionsMarkup +
                     '</div>' +
                     (instagramMarkup ? '<div class="partner-card__actions">' + instagramMarkup + '</div>' : '') +
                 '</li>';

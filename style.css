@@ -2844,6 +2844,36 @@ body > [class*="zoid"] select {
     text-decoration: none;
 }
 
+.partner-card__promotions {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid #2a2a2a;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.partner-card__promotions-title {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+}
+
+.partner-card__promotions-list {
+    margin: 0;
+    padding-left: 18px;
+    color: #cccccc;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    display: grid;
+    gap: 6px;
+}
+
+.partner-card__promotions-list li {
+    margin: 0;
+}
+
 .partner-card__actions {
     display: flex;
     align-items: center;
